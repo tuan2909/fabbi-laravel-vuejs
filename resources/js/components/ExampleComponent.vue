@@ -3,10 +3,14 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Example Component</div>
+                    <div class="card-header">List User Example</div>
 
                     <div class="card-body">
-                        I'm an example component.
+                        <ul id="example-1">
+                            <li v-for="item in users" :key="item.id">
+                                {{ item.name }}
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -15,9 +19,12 @@
 </template>
 
 <script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
+export default {
+    props: {
+        users: Array
+    },
+    mounted() {
+        console.log('Component mounted.')
     }
+}
 </script>

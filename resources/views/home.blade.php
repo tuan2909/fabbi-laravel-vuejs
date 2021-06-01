@@ -12,8 +12,7 @@
     <div class="title m-b-md">
         Laravel
     </div>
-
-    <example-component></example-component>
+    <example-component :users="{{$users}}" :user="{{$user}}"></example-component>
 
 </div>
 </body>

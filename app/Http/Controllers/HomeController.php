@@ -2,10 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Repositories\Contracts\UserRepository;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    protected $userRepository;
+
+    /**
+     * HomeController constructor.
+     * Define Repository
+     *
+     * @param UserRepository $userRepository
+     */
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * Home view.
      *
@@ -13,6 +28,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        //find user by id
+        $user = $this->userRepository->getUser(1);
+        //or get all user
+        $users = $this->userRepository->all();
+
+        return view('home', compact('users', 'user'));
     }
 }
