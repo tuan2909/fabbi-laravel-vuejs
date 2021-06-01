@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+namespace App\Repositories;
 
-use App\Repositories\Contracts\BaseRepository;
+use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
 
 /**

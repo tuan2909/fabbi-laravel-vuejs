@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+namespace App\Repositories\User;
 
 
-use App\Repositories\Contracts\UserRepository;
+use App\Repositories\EloquentBaseRepository;
 
 
 /**

@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Repositories\Contracts\UserRepository;
+use App\Repositories\User\UserRepository;
 use Illuminate\Http\Request;
 
+/**
+ * Class HomeController
+ *
+ * @package App\Http\Controllers
+ */
 class HomeController extends Controller
 {
     protected $userRepository;

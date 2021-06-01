@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use  App\Models\User;
-use App\Repositories\Contracts\UserRepository as CUser;
-use App\Repositories\Eloquent\EloquentUserRepository as EUser;
+use App\Repositories\User\UserRepository as CUser;
+use App\Repositories\User\EloquentUserRepository as EUser;
 
 class AppServiceProvider extends ServiceProvider
 {

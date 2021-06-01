@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Repositories\Contracts;
+namespace App\Repositories\User;
+
+use App\Repositories\BaseRepository;
 
 /**
  * UserRepository Interface BaseRepository
