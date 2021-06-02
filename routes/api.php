@@ -30,4 +30,4 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('logout', [LogoutController::class, 'logout']);
 });
 
-Route::middleware('jwt.refresh')->get('/token/refresh', [[LogoutController::class, 'refresh']]);
+//Route::middleware('jwt.refresh')->get('/token/refresh', [LogoutController::class, 'refresh']);

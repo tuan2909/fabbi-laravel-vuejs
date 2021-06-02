@@ -20,6 +20,10 @@ class UserController extends Controller
     public function user(Request $request)
     {
         $user = JWTAuth::toUser($request->token);
+        if (!$user) {
+
+            return response()->json('token is expired', Response::HTTP_FORBIDDEN);
+        }
 
         return response()->json(['data' => $user], Response::HTTP_OK);
     }
