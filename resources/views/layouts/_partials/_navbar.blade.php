@@ -83,124 +83,124 @@
                         {{--                        @if( Auth::user()->unreadNotifications()->count() > 0)--}}
                         {{--                            {{ Auth::user()->unreadNotifications()->count() }}--}}
                         {{--                        @endif--}}
-                        <li class="nav-item nav-icon dropdown">
-                            <btn-notification :id="{{auth()->id()}}"></btn-notification>
+{{--                        <li class="nav-item nav-icon dropdown">--}}
+{{--                            <btn-notification :id="{{auth()->id()}}"></btn-notification>--}}
 
-                        </li>
-                        <li class="nav-item iq-full-screen"><a href="#" class="" id="btnFullscreen"><i
-                                    class="ri-fullscreen-line"></i></a></li>
-                        <li class="caption-content">
-                            <a href="#" class="iq-user-toggle">
-                                <img src="{{ asset('/images/users/'.Auth::user()->avatar) }}"
-                                     class="img-fluid rounded" alt="user">
-                            </a>
-                            <div class="iq-user-dropdown">
-                                <div class="card">
-                                    <div
-                                        class="card-header d-flex justify-content-between align-items-center mb-0">
-                                        <div class="header-title">
-                                            <h4 class="card-title mb-0">Profile</h4>
-                                        </div>
-                                        <div class="close-data text-right badge badge-primary cursor-pointer"><i
-                                                class="ri-close-fill"></i></div>
-                                    </div>
-                                    <div class="data-scrollbar" data-scroll="2">
-                                        <div class="card-body">
-                                            <div class="profile-header">
-                                                <div class="cover-container ">
-                                                    <div class="media align-items-center mb-4">
-                                                        <img src="{{ asset('/images/users/'. Auth::user()->avatar) }}"
-                                                             alt="profile-bg"
-                                                             class="rounded img-fluid avatar-80">
-                                                        <div class="media-body profile-detail ml-3">
-                                                            <h3>{{Auth::user()->name}}</h3>
-                                                            <div class="d-flex flex-wrap">
-                                                                <a class="nav-link"
-                                                                   href="{{ route('logout') }}"
-                                                                   onclick="event.preventDefault();
-                                          document.getElementById('logout-form').submit();">
+{{--                        </li>--}}
+{{--                        <li class="nav-item iq-full-screen"><a href="#" class="" id="btnFullscreen"><i--}}
+{{--                                    class="ri-fullscreen-line"></i></a></li>--}}
+{{--                        <li class="caption-content">--}}
+{{--                            <a href="#" class="iq-user-toggle">--}}
+{{--                                <img src="{{ asset('/images/users/'.Auth::user()->avatar) }}"--}}
+{{--                                     class="img-fluid rounded" alt="user">--}}
+{{--                            </a>--}}
+{{--                            <div class="iq-user-dropdown">--}}
+{{--                                <div class="card">--}}
+{{--                                    <div--}}
+{{--                                        class="card-header d-flex justify-content-between align-items-center mb-0">--}}
+{{--                                        <div class="header-title">--}}
+{{--                                            <h4 class="card-title mb-0">Profile</h4>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="close-data text-right badge badge-primary cursor-pointer"><i--}}
+{{--                                                class="ri-close-fill"></i></div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="data-scrollbar" data-scroll="2">--}}
+{{--                                        <div class="card-body">--}}
+{{--                                            <div class="profile-header">--}}
+{{--                                                <div class="cover-container ">--}}
+{{--                                                    <div class="media align-items-center mb-4">--}}
+{{--                                                        <img src="{{ asset('/images/users/'. Auth::user()->avatar) }}"--}}
+{{--                                                             alt="profile-bg"--}}
+{{--                                                             class="rounded img-fluid avatar-80">--}}
+{{--                                                        <div class="media-body profile-detail ml-3">--}}
+{{--                                                            <h3>{{Auth::user()->name}}</h3>--}}
+{{--                                                            <div class="d-flex flex-wrap">--}}
+{{--                                                                <a class="nav-link"--}}
+{{--                                                                   href="{{ route('logout') }}"--}}
+{{--                                                                   onclick="event.preventDefault();--}}
+{{--                                          document.getElementById('logout-form').submit();">--}}
 
-                                                                    <p>
-                                                                        <i class="nav-icon fas fa-power-off"></i> Logout
-                                                                    </p>
-                                                                    <form id="logout-form"
-                                                                          action="{{ route('logout') }}" method="POST"
-                                                                          class="d-none">
-                                                                        @csrf
-                                                                    </form>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+{{--                                                                    <p>--}}
+{{--                                                                        <i class="nav-icon fas fa-power-off"></i> Logout--}}
+{{--                                                                    </p>--}}
+{{--                                                                    <form id="logout-form"--}}
+{{--                                                                          action="{{ route('logout') }}" method="POST"--}}
+{{--                                                                          class="d-none">--}}
+{{--                                                                        @csrf--}}
+{{--                                                                    </form>--}}
+{{--                                                                </a>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
 
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-6 col-md-6  col-6 pr-0">
-                                                        <div class="profile-details text-center">
-                                                            <a href="/profiles/{{Auth::id()}}"
-                                                               class="iq-sub-card bg-primary-light rounded-small p-2">
-                                                                <div class="rounded iq-card-icon-small">
-                                                                    <i class="ri-file-user-line"></i>
-                                                                </div>
-                                                                <h6 class="mb-0 ">My Profile</h6>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6  col-md-6 col-6">
-                                                        <div class="profile-details text-center">
-                                                            <a href="{{ route('profiles.edit',['profile' => Auth::id() ]) }}"
-                                                               class="iq-sub-card bg-danger-light rounded-small p-2">
-                                                                <div class="rounded iq-card-icon-small">
-                                                                    <i class="ri-profile-line"></i>
-                                                                </div>
-                                                                <h6 class="mb-0 ">Edit Profile</h6>
-                                                            </a>
-                                                        </div>
-                                                    </div>
+{{--                                                </div>--}}
+{{--                                                <div class="row">--}}
+{{--                                                    <div class="col-lg-6 col-md-6  col-6 pr-0">--}}
+{{--                                                        <div class="profile-details text-center">--}}
+{{--                                                            <a href="/profiles/{{Auth::id()}}"--}}
+{{--                                                               class="iq-sub-card bg-primary-light rounded-small p-2">--}}
+{{--                                                                <div class="rounded iq-card-icon-small">--}}
+{{--                                                                    <i class="ri-file-user-line"></i>--}}
+{{--                                                                </div>--}}
+{{--                                                                <h6 class="mb-0 ">My Profile</h6>--}}
+{{--                                                            </a>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="col-lg-6  col-md-6 col-6">--}}
+{{--                                                        <div class="profile-details text-center">--}}
+{{--                                                            <a href="{{ route('profiles.edit',['profile' => Auth::id() ]) }}"--}}
+{{--                                                               class="iq-sub-card bg-danger-light rounded-small p-2">--}}
+{{--                                                                <div class="rounded iq-card-icon-small">--}}
+{{--                                                                    <i class="ri-profile-line"></i>--}}
+{{--                                                                </div>--}}
+{{--                                                                <h6 class="mb-0 ">Edit Profile</h6>--}}
+{{--                                                            </a>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
 
-                                                </div>
-                                                <div class="personal-details">
-                                                    <h5 class="card-title mb-3 mt-3">Personal Details</h5>
-                                                    <div class="row align-items-center mb-2">
-                                                        <div class="col-sm-6">
-                                                            <h6>Birthday</h6>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <p class="mb-0">{{Auth::user()->birthday}}</p>
-                                                        </div>
-                                                    </div>
+{{--                                                </div>--}}
+{{--                                                <div class="personal-details">--}}
+{{--                                                    <h5 class="card-title mb-3 mt-3">Personal Details</h5>--}}
+{{--                                                    <div class="row align-items-center mb-2">--}}
+{{--                                                        <div class="col-sm-6">--}}
+{{--                                                            <h6>Birthday</h6>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="col-sm-6">--}}
+{{--                                                            <p class="mb-0">{{Auth::user()->birthday}}</p>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
 
-                                                    <div class="row align-items-center mb-2">
-                                                        <div class="col-sm-6">
-                                                            <h6>Phone</h6>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <p class="mb-0">{{Auth::user()->email}}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row align-items-center mb-2">
-                                                        <div class="col-sm-6">
-                                                            <h6>Email</h6>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <p class="mb-0"><a
-                                                                    href=""
-                                                                    class="__cf_email__"
-                                                                    data-cfemail="">{{Auth::user()->email}}</a>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <auth-facebook></auth-facebook>
-                                                    <auth-google></auth-google>
+{{--                                                    <div class="row align-items-center mb-2">--}}
+{{--                                                        <div class="col-sm-6">--}}
+{{--                                                            <h6>Phone</h6>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="col-sm-6">--}}
+{{--                                                            <p class="mb-0">{{Auth::user()->email}}</p>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="row align-items-center mb-2">--}}
+{{--                                                        <div class="col-sm-6">--}}
+{{--                                                            <h6>Email</h6>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="col-sm-6">--}}
+{{--                                                            <p class="mb-0"><a--}}
+{{--                                                                    href=""--}}
+{{--                                                                    class="__cf_email__"--}}
+{{--                                                                    data-cfemail="">{{Auth::user()->email}}</a>--}}
+{{--                                                            </p>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                    <auth-facebook></auth-facebook>--}}
+{{--                                                    <auth-google></auth-google>--}}
 
-                                                </div>
-                                            </div>
-                                            <div class="p-3"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="p-3"></div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
                     </ul>
                 </div>
             </div>
