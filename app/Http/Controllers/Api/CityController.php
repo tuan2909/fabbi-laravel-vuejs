@@ -33,7 +33,7 @@ class CityController extends Controller
             return response()->json(['data' => $collection], Response::HTTP_OK);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => config('common.lang.en.message_api_false')],
+            return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
     }
@@ -56,7 +56,7 @@ class CityController extends Controller
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => config('common.lang.en.message_api_false')],
+            return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
     }
@@ -76,7 +76,7 @@ class CityController extends Controller
             return \response()->json(['data' => $collection], Response::HTTP_OK);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => config('common.lang.en.message_api_false')],
+            return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
     }
@@ -101,7 +101,7 @@ class CityController extends Controller
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => config('common.lang.en.message_api_false')],
+            return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
     }
@@ -118,11 +118,11 @@ class CityController extends Controller
             $result = $this->cityRepository->delete($id);
             if ($result) {
 
-                return response()->json(['message' => config('common.lang.en.message_api_true')], Response::HTTP_OK);
+                return response()->json(['message' => trans('message.api.loading_data_true')], Response::HTTP_OK);
             }
         } catch (\Exception $e) {
 
-            return response()->json(['message' => config('common.lang.en.message_api_false')],
+            return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
     }
