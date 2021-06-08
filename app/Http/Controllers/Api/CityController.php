@@ -118,7 +118,7 @@ class CityController extends Controller
             $result = $this->cityRepository->delete($id);
             if ($result) {
 
-                return response()->json(['message' => 'Delete Success'], Response::HTTP_OK);
+                return response()->json(['message' => config('common.lang.en.message_api_true')], Response::HTTP_OK);
             }
         } catch (\Exception $e) {
 
