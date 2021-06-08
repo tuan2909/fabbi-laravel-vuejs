@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Constant;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CityResource;
 use App\Repositories\City\CityRepository;
@@ -11,7 +12,6 @@ use Illuminate\Http\Response;
 
 class CityController extends Controller
 {
-
     protected $cityRepository;
 
     public function __construct(CityRepository $cityRepository)
@@ -27,7 +27,7 @@ class CityController extends Controller
     public function index()
     {
         try {
-            $cities = $this->cityRepository->paginate(config('common.paginate.item_per_page'));
+            $cities = $this->cityRepository->paginate(Constant::ITEM_PER_PAGE);
             $collection = CityResource::collection($cities);
 
             return response()->json(['data' => $collection], Response::HTTP_OK);
@@ -115,8 +115,6 @@ class CityController extends Controller
             if ($result) {
 
                 return response()->json(['message' => 'Delete Success'], Response::HTTP_OK);
-            } else {
-
             }
         } catch (\Exception $e) {
 
