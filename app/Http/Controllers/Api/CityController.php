@@ -33,7 +33,8 @@ class CityController extends Controller
             return response()->json(['data' => $collection], Response::HTTP_OK);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'loading false'], Response::HTTP_FORBIDDEN);
+            return response()->json(['message' => config('common.lang.en.message_api_false')],
+                Response::HTTP_FORBIDDEN);
         }
     }
 
@@ -55,7 +56,8 @@ class CityController extends Controller
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'Store false'], Response::HTTP_FORBIDDEN);
+            return response()->json(['message' => config('common.lang.en.message_api_false')],
+                Response::HTTP_FORBIDDEN);
         }
     }
 
@@ -74,7 +76,8 @@ class CityController extends Controller
             return \response()->json(['data' => $collection], Response::HTTP_OK);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'loading false'], Response::HTTP_FORBIDDEN);
+            return response()->json(['message' => config('common.lang.en.message_api_false')],
+                Response::HTTP_FORBIDDEN);
         }
     }
 
@@ -98,7 +101,8 @@ class CityController extends Controller
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'Update false'], Response::HTTP_FORBIDDEN);
+            return response()->json(['message' => config('common.lang.en.message_api_false')],
+                Response::HTTP_FORBIDDEN);
         }
     }
 
@@ -118,7 +122,8 @@ class CityController extends Controller
             }
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'Delete false'], Response::HTTP_FORBIDDEN);
+            return response()->json(['message' => config('common.lang.en.message_api_false')],
+                Response::HTTP_FORBIDDEN);
         }
     }
 }
