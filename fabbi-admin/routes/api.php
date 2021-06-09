@@ -30,12 +30,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('auth', [UserController::class, 'user']);
     Route::post('logout', [LogoutController::class, 'logout']);
 });
-<<<<<<< HEAD:fabbi-admin/routes/api.php
 
-Route::apiResource('cities', CityController::class);
-
-
-=======
 Route::resource('cities', CityController::class);
->>>>>>>  feat: Api manager city:routes/api.php
 //Route::middleware('jwt.refresh')->get('/token/refresh', [LogoutController::class, 'refresh']);

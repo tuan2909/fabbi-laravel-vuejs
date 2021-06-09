@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Constant;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CityResource;
 use App\Repositories\City\CityRepository;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
 class CityController extends Controller
 {
-    const ITEM_PER_PAGE = 15;
-
     protected $cityRepository;
 
     public function __construct(CityRepository $cityRepository)
@@ -27,13 +27,14 @@ class CityController extends Controller
     public function index()
     {
         try {
-            $cities = $this->cityRepository->paginate(static::ITEM_PER_PAGE);
+            $cities = $this->cityRepository->paginate(Constant::ITEM_PER_PAGE);
             $collection = CityResource::collection($cities);
 
             return response()->json(['data' => $collection], Response::HTTP_OK);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'loading false'], Response::HTTP_FORBIDDEN);
+            return response()->json(['message' => trans('message.api.loading_data_false')],
+                Response::HTTP_FORBIDDEN);
         }
     }
 
@@ -55,7 +56,8 @@ class CityController extends Controller
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'Store false'], Response::HTTP_FORBIDDEN);
+            return response()->json(['message' => trans('message.api.loading_data_false')],
+                Response::HTTP_FORBIDDEN);
         }
     }
 
@@ -74,7 +76,8 @@ class CityController extends Controller
             return \response()->json(['data' => $collection], Response::HTTP_OK);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'loading false'], Response::HTTP_FORBIDDEN);
+            return response()->json(['message' => trans('message.api.loading_data_false')],
+                Response::HTTP_FORBIDDEN);
         }
     }
 
@@ -98,7 +101,8 @@ class CityController extends Controller
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'Update false'], Response::HTTP_FORBIDDEN);
+            return response()->json(['message' => trans('message.api.loading_data_false')],
+                Response::HTTP_FORBIDDEN);
         }
     }
 
@@ -114,13 +118,13 @@ class CityController extends Controller
             $result = $this->cityRepository->delete($id);
             if ($result) {
 
-                return response()->json(['message' => 'Delete Success'], Response::HTTP_OK);
-            } else {
-
+                return response()->json(['message' => trans('message.api.loading_data_true')], Response::HTTP_OK);
             }
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'Delete false'], Response::HTTP_FORBIDDEN);
+            return response()->json(['message' => trans('message.api.loading_data_false')],
+                Response::HTTP_FORBIDDEN);
         }
     }
 }
+
