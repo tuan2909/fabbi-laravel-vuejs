@@ -1,0 +1,13 @@
+version: "3.4"
+
+services:
+  app:
+    image: vue-app/vue:v1
+    build:
+      context: .
+      dockerfile: npm/Dockerfile
+    volumes:
+      - ../vue-app:/app/
+    ports:
+      - "5000:8080"
+    restart: unless-stopped
