@@ -31,7 +31,5 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('logout', [LogoutController::class, 'logout']);
 });
 
-Route::apiResource('cities', CityController::class);
-
-
+Route::resource('cities', CityController::class);
 //Route::middleware('jwt.refresh')->get('/token/refresh', [LogoutController::class, 'refresh']);
