@@ -28,10 +28,11 @@ class TypePatientController extends Controller
     {
 
         try {
-            $typePatients = $this->typePatientRepository->all();
-            $collection = TypePatientResource::collection($typePatients);
+            $typePatients = $this->typePatientRepository->paginate(Constant::ITEM_PER_PAGE);
+            //TODO
+//            $collection = TypePatientResource::collection($typePatients);
 
-            return response()->json(['data' => $collection], Response::HTTP_OK);
+            return response()->json(['data' => $typePatients], Response::HTTP_OK);
         } catch (\Exception $e) {
 
             return response()->json(['message' => trans('message.api.loading_data_false')],
