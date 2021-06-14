@@ -16,11 +16,11 @@ class CreateSpecimensTable extends Migration
         Schema::create('specimens', function (Blueprint $table) {
             $table->id();
             $table->integer('patient_id')->nullable(false)->comment('Id bệnh nhân');
-            $table->dateTime('date_infection')->nullable(false)->comment('Ngày nhiễm bệnh');
+            $table->dateTime('date_infection')->nullable()->comment('Ngày nhiễm bệnh');
             $table->dateTime('date_draw_blood')->nullable(false)->comment('Ngày lấy máu');
             $table->dateTime('date_test')->nullable(false)->comment('Ngày kiểm tra');
-            $table->dateTime('result_test')->nullable(false)->comment('Ngày kiểm tra');
-            $table->dateTime('address')->nullable(false)->comment('Địa chỉ xét nghiệm');
+            $table->tinyInteger('result_test')->nullable(false)->comment('Kết quả xét nghiệm/0:Âm tính,1:Dương tính');
+            $table->text('address')->nullable(false)->comment('Địa chỉ xét nghiệm');
             $table->timestamps();
         });
     }
