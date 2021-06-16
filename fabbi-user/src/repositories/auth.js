@@ -7,7 +7,7 @@ export default {
      * @returns {Promise<AxiosResponse<any>>}
      */
     async login(payload) {
-        return await request.post('/login', payload);
+        return await request.post('/auth/login', payload);
     },
     /**
      *

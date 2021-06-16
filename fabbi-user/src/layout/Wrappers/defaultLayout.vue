@@ -1,6 +1,5 @@
 <template>
-  <div class="app-container app-theme-white">
-    <h1>Default Layout</h1>
+  <div class="wrapper container">
     <slot/>
   </div>
 </template>

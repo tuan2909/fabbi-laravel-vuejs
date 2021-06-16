@@ -1,4 +1,4 @@
-NODE_ENV=development21321321
+NODE_ENV=development12121
 
 # just a flag
 ENV = 'development'
