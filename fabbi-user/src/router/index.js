@@ -11,10 +11,10 @@ const routes = [
         component: () => import('../views/Home'),
     },
     {
-        path: "/",
+        path: "/login",
         name: 'login',
         meta: {layout: 'default'},
-        component: () => import('../views/Home'),
+        component: () => import('../views/login/index'),
     },
 
 ];

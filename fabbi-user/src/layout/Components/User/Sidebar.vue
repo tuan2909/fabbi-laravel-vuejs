@@ -1,12 +1,13 @@
 <template>
-  <div class="iq-sidebar  sidebar-default ">
-    <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
-      <a href="" class="header-logo">
-        <img src="" class="img-fluid rounded-normal light-logo"
-             alt="logo">
-        <img src=""
-             class="img-fluid rounded-normal darkmode-logo" alt="logo">
-      </a>
+  <div class="iq-sidebar sidebar-default ">
+    <div class="iq-sidebar-logo d-flex align-items-center justify-content-between text-center">
+      <router-link to="/" class="header-logo">
+        <h5 class="">COVID MANAGE</h5>
+      </router-link>
+      <!--        <img src="" class="img-fluid rounded-normal light-logo"-->
+      <!--             alt="logo">-->
+      <!--        <img src=""-->
+      <!--             class="img-fluid rounded-normal darkmode-logo" alt="logo">-->
       <div class="iq-menu-bt-sidebar">
         <i class="las la-bars wrapper-menu"></i>
       </div>
@@ -18,11 +19,10 @@
             <router-link to="/">Home</router-link>
           </li>
           <li class=" ">
-            <router-link to="/about">About</router-link>
+            <a href="javascript:;" @click="logout">Logout</a>
           </li>
         </ul>
       </nav>
-
       <div class="p-3"></div>
     </div>
   </div>
@@ -30,7 +30,13 @@
 
 <script>
 export default {
-  name: "Sidebar"
+  name: "Sidebar",
+  methods: {
+    async logout() {
+      await this.$store.dispatch('user/logout')
+      await this.$router.push(`/login`)
+    }
+  }
 }
 </script>
 
