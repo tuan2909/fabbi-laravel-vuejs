@@ -30,13 +30,10 @@ Route::group(['namespace' => 'Auth', 'prefix' => 'auth'], function () {
     Route::post('login', [LoginController::class, 'login']);
 });
 Route::group(['middleware' => 'jwt.auth'], function () {
-    Route::get('auth', [UserController::class, 'user']);
+    Route::resource('cities', CityController::class);
+    Route::resource('type_patients', TypePatientController::class);
+    Route::resource('specimens', SpecimenController::class);
+    Route::resource('users', UserController::class);
     Route::post('logout', [LogoutController::class, 'logout']);
 });
-
-Route::resource('cities', CityController::class);
-Route::resource('type_patients', TypePatientController::class);
-Route::resource('specimens', SpecimenController::class);
-Route::resource('users', UserController::class);
-
 //Route::middleware('jwt.refresh')->get('/token/refresh', [LogoutController::class, 'refresh']);

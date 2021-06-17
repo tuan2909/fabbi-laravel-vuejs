@@ -118,6 +118,12 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Delete user by id.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
         try {
@@ -135,23 +141,5 @@ class UserController extends Controller
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
-    }
-
-    /**
-     * Get user info.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response
-     */
-    public function user(Request $request)
-    {
-        $user = JWTAuth::toUser($request->token);
-        if (!$user) {
-
-            return response()->json('token is expired', Response::HTTP_FORBIDDEN);
-        }
-
-        return response()->json(['data' => $user], Response::HTTP_OK);
     }
 }

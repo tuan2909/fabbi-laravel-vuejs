@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Api\FormRequest;
 
-class SpecimenRequest extends FormRequest
+class UserLogin extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,8 @@ class SpecimenRequest extends FormRequest
     public function rules()
     {
         return [
-            'date_infection' => 'required',
-            'date_draw_blood' => 'required',
-            'date_test' => 'required',
-            'result_test' => 'required',
-            'address' => 'required',
+            "email" => 'required',
+            "password" => 'required'
         ];
     }
 }
