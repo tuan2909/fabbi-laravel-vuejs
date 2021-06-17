@@ -21,10 +21,8 @@ class LogoutController extends Controller
 
     public function logout(Request $request)
     {
-        $this->validate($request, ['token' => 'required']);
-
         try {
-            JWTAuth::invalidate($request->input('token'));
+            JWTAuth::invalidate($request->token);
 
             return response()->json('You have successfully logged out.', Response::HTTP_OK);
         } catch (JWTException $e) {
