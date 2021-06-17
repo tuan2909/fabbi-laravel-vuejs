@@ -1,9 +1,9 @@
 import axios from "axios"
 import store from "../store"
 import { getToken } from "./auth";
-console.log(123)
+
 const service = axios.create({
-    baseURl: `http://localhost:8080/api/`, //url= base url + request url
+    baseURL: `http://localhost:8080/api/`, //url= base url + request url
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
