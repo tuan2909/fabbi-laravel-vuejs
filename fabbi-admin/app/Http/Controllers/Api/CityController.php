@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\Constant;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CityStore;
+use App\Http\Requests\CityUpdate;
 use App\Http\Resources\CityResource;
 use App\Repositories\City\CityRepository;
 use Illuminate\Http\Request;
@@ -44,7 +46,7 @@ class CityController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CityStore $request)
     {
         try {
             $data = [
@@ -89,7 +91,7 @@ class CityController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CityUpdate $request, $id)
     {
         try {
             $data = [
