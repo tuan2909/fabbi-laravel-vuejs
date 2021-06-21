@@ -11,6 +11,6 @@ use App\Repositories\BaseRepository;
  */
 interface HealthPatientRepository extends BaseRepository
 {
-
+    public function deleteHealthPatient($column, $idPatient);
 
 }
