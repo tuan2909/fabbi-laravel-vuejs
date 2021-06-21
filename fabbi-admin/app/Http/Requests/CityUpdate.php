@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Api\FormRequest;
 
-class RegisterFormRequest extends FormRequest
+class CityUpdate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class RegisterFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:6|max:10',
+            'name' => 'required|min:5|max:30|unique:cities,name,' . $this->id,
         ];
     }
 }

@@ -4,35 +4,39 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\Constant;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CityStore;
-use App\Http\Requests\CityUpdate;
-use App\Http\Resources\CityResource;
-use App\Repositories\City\CityRepository;
+use App\Http\Requests\SpecimenRequest;
+use App\Http\Resources\SpecimenResource;
+use App\Repositories\Specimen\SpecimenRepository;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
-class CityController extends Controller
+class SpecimenController extends Controller
 {
-    protected $cityRepository;
+    protected $specimenRepository;
 
-    public function __construct(CityRepository $cityRepository)
+    /**
+     * SpecimenController constructor.
+     *
+     * @param SpecimenRepository $specimenRepository
+     */
+    public function __construct(SpecimenRepository $specimenRepository)
     {
-        $this->cityRepository = $cityRepository;
+        $this->specimenRepository = $specimenRepository;
     }
 
     /**
-     * Get all city by item per_page
+     * Show list specimen.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         try {
-            $cities = $this->cityRepository->paginate(Constant::ITEM_PER_PAGE);
-            $collection = CityResource::collection($cities);
+            $specimens = $this->specimenRepository->all();
+            $collection = SpecimenResource::collection($specimens);
 
-            return response()->json(['data' => $collection], Response::HTTP_OK);
+            return response()->json(['data' => $collection],
+                Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
 
             return response()->json(['message' => trans('message.api.loading_data_false')],
@@ -46,14 +50,20 @@ class CityController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CityStore $request)
+    public function store(SpecimenRequest $request)
     {
         try {
             $data = [
-                'name' => $request->name
+                'patient_id' => $request->patient_id,
+                'date_infection' => $request->date_infection,
+                'date_draw_blood' => $request->date_draw_blood,
+                'date_test' => $request->date_test,
+                'result_test' => $request->result_test,
+                'address' => $request->address,
             ];
-            $result = $this->cityRepository->create($data);
-            $collection = new CityResource($result);
+
+            $result = $this->specimenRepository->create($data);
+            $collection = new SpecimenResource($result);
 
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
@@ -72,8 +82,8 @@ class CityController extends Controller
     public function show($id)
     {
         try {
-            $city = $this->cityRepository->find($id);
-            $collection = new CityResource($city);
+            $city = $this->specimenRepository->find($id);
+            $collection = new SpecimenResource($city);
 
             return \response()->json(['data' => $collection], Response::HTTP_OK);
         } catch (\Exception $e) {
@@ -83,7 +93,6 @@ class CityController extends Controller
         }
     }
 
-
     /**
      * Update the specified resource in storage.
      *
@@ -91,14 +100,19 @@ class CityController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CityUpdate $request, $id)
+    public function update(SpecimenRequest $request, $id)
     {
         try {
             $data = [
-                'name' => $request->name
+                'patient_id' => $request->patient_id,
+                'date_infection' => $request->date_infection,
+                'date_draw_blood' => $request->date_draw_blood,
+                'date_test' => $request->date_test,
+                'result_test' => $request->result_test,
+                'address' => $request->address,
             ];
-            $result = $this->cityRepository->update($id, $data);
-            $collection = new CityResource($result);
+            $result = $this->specimenRepository->update($id, $data);
+            $collection = new SpecimenResource($result);
 
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
@@ -117,7 +131,7 @@ class CityController extends Controller
     public function destroy($id)
     {
         try {
-            $result = $this->cityRepository->delete($id);
+            $result = $this->specimenRepository->delete($id);
             if ($result) {
 
                 return response()->json(['message' => trans('message.api.loading_data_true')], Response::HTTP_OK);
@@ -129,4 +143,3 @@ class CityController extends Controller
         }
     }
 }
-

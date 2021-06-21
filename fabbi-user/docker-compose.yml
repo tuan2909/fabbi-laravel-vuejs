@@ -2,12 +2,12 @@ version: "3.4"
 
 services:
   app:
-    image: vue-app/vue:v1
+    image: covid-vue:v1
     build:
-      context: .
-      dockerfile: npm/Dockerfile
+      context: ''
+      dockerfile: Dockerfile
     volumes:
-      - ../vue-app:/app/
+      - ./src:/app/src
     ports:
       - "5000:8080"
     restart: unless-stopped

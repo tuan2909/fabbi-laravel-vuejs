@@ -4,35 +4,35 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\Constant;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CityStore;
-use App\Http\Requests\CityUpdate;
-use App\Http\Resources\CityResource;
-use App\Repositories\City\CityRepository;
+use App\Http\Resources\TypePatientResource;
+use App\Repositories\TypePatient\TypePatientRepository;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
-class CityController extends Controller
-{
-    protected $cityRepository;
 
-    public function __construct(CityRepository $cityRepository)
+class TypePatientController extends Controller
+{
+    protected $typePatientRepository;
+
+    public function __construct(TypePatientRepository $typePatientRepository)
     {
-        $this->cityRepository = $cityRepository;
+        $this->typePatientRepository = $typePatientRepository;
     }
 
     /**
-     * Get all city by item per_page
+     * Get all type patient by item per_page
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        try {
-            $cities = $this->cityRepository->paginate(Constant::ITEM_PER_PAGE);
-            $collection = CityResource::collection($cities);
 
-            return response()->json(['data' => $collection], Response::HTTP_OK);
+        try {
+            $typePatients = $this->typePatientRepository->paginate(Constant::ITEM_PER_PAGE);
+            //TODO
+//            $collection = TypePatientResource::collection($typePatients);
+
+            return response()->json(['data' => $typePatients], Response::HTTP_OK);
         } catch (\Exception $e) {
 
             return response()->json(['message' => trans('message.api.loading_data_false')],
@@ -46,14 +46,14 @@ class CityController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CityStore $request)
+    public function store(Request $request)
     {
         try {
             $data = [
                 'name' => $request->name
             ];
-            $result = $this->cityRepository->create($data);
-            $collection = new CityResource($result);
+            $result = $this->typePatientRepository->create($data);
+            $collection = new TypePatientResource($result);
 
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
@@ -72,8 +72,8 @@ class CityController extends Controller
     public function show($id)
     {
         try {
-            $city = $this->cityRepository->find($id);
-            $collection = new CityResource($city);
+            $typePatient = $this->typePatientRepository->find($id);
+            $collection = new TypePatientResource($typePatient);
 
             return \response()->json(['data' => $collection], Response::HTTP_OK);
         } catch (\Exception $e) {
@@ -91,14 +91,14 @@ class CityController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CityUpdate $request, $id)
+    public function update(Request $request, $id)
     {
         try {
             $data = [
                 'name' => $request->name
             ];
-            $result = $this->cityRepository->update($id, $data);
-            $collection = new CityResource($result);
+            $result = $this->typePatientRepository->update($id, $data);
+            $collection = new TypePatientResource($result);
 
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
@@ -117,7 +117,7 @@ class CityController extends Controller
     public function destroy($id)
     {
         try {
-            $result = $this->cityRepository->delete($id);
+            $result = $this->typePatientRepository->delete($id);
             if ($result) {
 
                 return response()->json(['message' => trans('message.api.loading_data_true')], Response::HTTP_OK);
@@ -129,4 +129,3 @@ class CityController extends Controller
         }
     }
 }
-
