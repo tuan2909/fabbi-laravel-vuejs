@@ -5,10 +5,28 @@ Vue.use(VueRouter);
 
 const routes = [
     {
-        path: "/",
+        path: '/',
         name: 'home',
         meta: {layout: 'admin'},
         component: () => import('../views/Home'),
+    },
+    {
+        path: '/cities',
+        name: 'city',
+        meta: {layout: 'admin'},
+        component: () => import('../views/city/index')
+    },
+    {
+        path: '/cities/create',
+        name: 'create_city',
+        meta: {layout: 'admin'},
+        component: () => import('../views/city/create')
+    },
+    {
+        path: '/cities/:id',
+        name: 'city_edit',
+        meta: {layout: 'admin'},
+        component: () => import('../views/city/edit')
     },
     {
         path: "/login",

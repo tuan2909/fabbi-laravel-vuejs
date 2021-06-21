@@ -15,8 +15,11 @@
     <div class="data-scrollbar" data-scroll="1">
       <nav class="iq-sidebar-menu">
         <ul id="iq-sidebar-toggle" class="iq-menu">
-          <li class=" ">
+          <li class="">
             <router-link to="/">Home</router-link>
+          </li>
+          <li class="">
+            <router-link to="/cities">Manage Cities</router-link>
           </li>
           <li class=" ">
             <a href="javascript:;" @click="logout">Logout</a>

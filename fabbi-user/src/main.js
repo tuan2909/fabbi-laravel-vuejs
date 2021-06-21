@@ -20,6 +20,13 @@ import UserLayout from './layout/Wrappers/UserLayout/baseLayout'
 // Default layout
 import DefaultLayout from './layout/Wrappers/defaultLayout'
 import "./permission" //permission control
+
+import { ValidationObserver } from "vee-validate";
+import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
+
+Vue.component('ValidationObserver', ValidationObserver)
+Vue.component('ValidationProvider', ValidationProvider)
+
 Vue.component('user-layout', UserLayout);
 Vue.component('default-layout', DefaultLayout);
 Vue.component('admin-layout', AdminLayout);

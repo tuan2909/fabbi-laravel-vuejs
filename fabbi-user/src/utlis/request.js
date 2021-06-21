@@ -1,6 +1,6 @@
 import axios from "axios"
 import store from "../store"
-import { getToken } from "./auth";
+import { getToken, removeToken } from "./auth";
 
 const service = axios.create({
     baseURL: `http://localhost:8080/api/`, //url= base url + request url
@@ -32,6 +32,7 @@ service.interceptors.response.use(
         console.log(error)
         const {status} = error.response
         if (status === 401) {
+            removeToken();
             window.location = '/login'
             return false
         }
