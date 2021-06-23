@@ -11,6 +11,7 @@ use App\Repositories\BaseRepository;
  */
 interface PatientRepository extends BaseRepository
 {
+    public function getDataPatients();
 
-
+    public function getPatientBy($id);
 }

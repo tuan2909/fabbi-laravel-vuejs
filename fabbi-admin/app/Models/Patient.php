@@ -67,4 +67,9 @@ class Patient extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function health()
+    {
+        return $this->hasOne(HealthPatient::class, 'patient_id', 'id');
+    }
 }

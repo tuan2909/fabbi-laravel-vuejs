@@ -9,7 +9,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Api\CityController;
 use App\Http\Controllers\Api\TypePatientController;
 use App\Http\Controllers\Api\SpecimenController;
-
+use App\Http\Controllers\Api\PatientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +34,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::resource('type_patients', TypePatientController::class);
     Route::resource('specimens', SpecimenController::class);
     Route::resource('users', UserController::class);
+    Route::resource('patients', PatientController::class);
     Route::post('logout', [LogoutController::class, 'logout']);
 });
 //Route::middleware('jwt.refresh')->get('/token/refresh', [LogoutController::class, 'refresh']);

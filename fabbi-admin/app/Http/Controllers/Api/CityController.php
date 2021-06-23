@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\Constant;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CityStore;
 use App\Http\Requests\CityUpdate;
 use App\Http\Resources\CityResource;
 use App\Repositories\City\CityRepository;
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
 class CityController extends Controller
@@ -24,12 +21,12 @@ class CityController extends Controller
     /**
      * Get all city by item per_page
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         try {
-            $cities = $this->cityRepository->paginate(Constant::ITEM_PER_PAGE);
+            $cities = $this->cityRepository->all();
             $collection = CityResource::collection($cities);
 
             return response()->json(['data' => $collection], Response::HTTP_OK);

@@ -25,7 +25,7 @@ class CreatePatientsTable extends Migration
             $table->integer('year_birth')->nullable()->comment('Năm sinh');
             $table->text('address')->comment('Địa chỉ bệnh nhân');
             $table->string('number')->nullable()->comment('Số điện thoại');
-            $table->string('email')->unique()->comment('email bệnh nhân');
+            $table->string('email')->comment('email bệnh nhân');
             $table->text('address_start')->nullable(false)->comment('Địa chỉ bắt đầu di chuyển');
             $table->text('address_end')->nullable(false)->comment('Địa chỉ cuối');
             $table->timestamps();
