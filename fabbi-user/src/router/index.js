@@ -38,7 +38,13 @@ const routes = [
         path: "/login",
         name: 'login',
         meta: { layout: 'default' },
-        component: () => import('../views/login/index'),
+        component: () => import('../views/auth/login'),
+    },
+    {
+        path: "/sign-up",
+        name: 'sign_up',
+        meta: { layout: 'default' },
+        component: () => import('../views/auth/signup'),
     },
 
 ];

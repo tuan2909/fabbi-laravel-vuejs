@@ -2,7 +2,8 @@ import router from "./router/index";
 import { getToken } from "./utlis/auth";
 
 const whiteList = [
-    '/login'
+    '/login',
+    '/sign-up'
 ]
 
 router.beforeEach(async (to, from, next) => {
@@ -10,7 +11,7 @@ router.beforeEach(async (to, from, next) => {
     if (hasToken) {
         // If is logged in, redirect to the next page
         if (to.path === '/login') {
-            next({path: '/'})
+            next({ path: '/' })
         } else {
             next();
         }
