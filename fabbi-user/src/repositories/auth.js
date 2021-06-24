@@ -10,6 +10,14 @@ export default {
         return await request.post(`/auth/login`, payload);
     },
     /**
+     * @param payload
+     *
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    async signup(payload) {
+        return await request.post(`/auth/signup`, payload);
+    },
+    /**
      *
      * @returns {Promise<AxiosResponse<any>>}
      */

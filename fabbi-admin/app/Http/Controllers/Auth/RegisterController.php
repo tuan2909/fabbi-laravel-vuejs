@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\Constant;
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterFormRequest;
 use App\Repositories\User\UserRepository;
@@ -36,6 +38,8 @@ class RegisterController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'status' => Constant::STATUS_ACTIVE,
+            'role' => UserRole::MEMBER,
         ];
         $user = $this->userRepository->create($data);
 

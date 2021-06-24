@@ -21,13 +21,31 @@ const mutations = {
 const authService = RepositoryFactory.get("auth");
 
 const actions = {
-    login({commit}, userInfo) {
-        const data = {email: userInfo.email, password: userInfo.password}
+    signup({ commit }, userInfo) {
+        console.log(userInfo)
+        const data = {
+            name: userInfo.name,
+            email: userInfo.email,
+            password: userInfo.password,
+            password_confirmation: userInfo.password_confirmation,
+            role: userInfo.role,
+            status: userInfo.status
+        }
+        return new Promise((resolve, reject) => {
+            authService.signup(data).then(() => {
+                resolve();
+            }).catch((error) => {
+                reject(error);
+            });
+        });
+    },
+    login({ commit }, userInfo) {
+        const data = { email: userInfo.email, password: userInfo.password }
         return new Promise((resolve, reject) => {
             authService
                 .login(data)
                 .then((response) => {
-                    const {token} = response;
+                    const { token } = response;
                     commit('SET_TOKEN', token);
                     setToken(token);
                     resolve();
@@ -37,7 +55,7 @@ const actions = {
                 })
         })
     },
-    logout({commit}) {
+    logout({ commit }) {
         return new Promise((resolve, reject) => {
             authService
                 .logout()
