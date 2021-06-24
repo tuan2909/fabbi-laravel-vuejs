@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PatientStore;
+use App\Http\Requests\PatientRequest;
 use App\Http\Resources\PatientResource;
 use App\Repositories\HealthPatient\HealthPatientRepository;
 use App\Repositories\Patient\PatientRepository;
@@ -58,7 +58,7 @@ class PatientController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(PatientStore $request)
+    public function store(PatientRequest $request)
     {
         DB::beginTransaction();
         try {
@@ -104,7 +104,7 @@ class PatientController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(PatientRequest $request, $id)
     {
         DB::beginTransaction();
         try {

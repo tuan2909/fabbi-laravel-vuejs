@@ -11,6 +11,6 @@ use App\Repositories\BaseRepository;
  */
 interface TypePatientRepository extends BaseRepository
 {
-
+    public function getDataTypePatient($keyWord);
 
 }

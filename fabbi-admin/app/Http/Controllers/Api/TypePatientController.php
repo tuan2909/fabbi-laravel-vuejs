@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\Constant;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TypePatientResource;
 use App\Repositories\TypePatient\TypePatientRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
+use App\Http\Requests\TypePatientStore;
+use App\Http\Requests\TypePatientUpdate;
 
 class TypePatientController extends Controller
 {
@@ -22,18 +22,17 @@ class TypePatientController extends Controller
     /**
      * Get all type patient by item per_page
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        try {
-            $typePatients = $this->typePatientRepository->all();
-            $collection = TypePatientResource::collection($typePatients);
+        $typePatients = $this->typePatientRepository->getDataTypePatient($request->keyword);
+        $collection = TypePatientResource::collection($typePatients);
 
+        if ($typePatients) {
             return response()->json(['data' => $collection], Response::HTTP_OK);
-        } catch (\Exception $e) {
-
+        } else {
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
@@ -43,9 +42,9 @@ class TypePatientController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(TypePatientStore $request)
     {
         try {
             $data = [
@@ -66,16 +65,16 @@ class TypePatientController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        try {
-            $typePatient = $this->typePatientRepository->find($id);
-            $collection = new TypePatientResource($typePatient);
+        $typePatient = $this->typePatientRepository->find($id);
+        $collection = new TypePatientResource($typePatient);
+        if ($typePatient) {
 
             return \response()->json(['data' => $collection], Response::HTTP_OK);
-        } catch (\Exception $e) {
+        } else {
 
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
@@ -88,9 +87,9 @@ class TypePatientController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(TypePatientUpdate $request, $id)
     {
         try {
             $data = [
@@ -111,7 +110,7 @@ class TypePatientController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

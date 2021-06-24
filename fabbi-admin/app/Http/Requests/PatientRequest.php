@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Api\FormRequest;
 
-class PatientStore extends FormRequest
+class PatientRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,7 +30,7 @@ class PatientStore extends FormRequest
             'year_birth' => 'required|min:4|max:4',
             'address' => 'required',
             'number' => 'required|min:10|max:12',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email',
             'address_start' => 'required',
             'address_end' => 'required',
         ];
