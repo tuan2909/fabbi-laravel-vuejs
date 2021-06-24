@@ -21,6 +21,9 @@
           <li class="">
             <router-link to="/cities">Manage Cities</router-link>
           </li>
+          <li class="">
+            <router-link to="/type_patients">Manage Type Patient</router-link>
+          </li>
           <li class=" ">
             <a href="javascript:;" @click="logout">Logout</a>
           </li>
