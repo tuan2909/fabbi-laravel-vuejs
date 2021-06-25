@@ -119,7 +119,7 @@ export default {
     handleSignUp() {
       this.$store.dispatch('user/signup', this.signupForm)
           .then(() => {
-            this.$bvToast.toast('Sign up success', {
+            this.$bvToast.toast(this.$t('auth.signup.msgSignupSuccess'), {
               variant: 'success',
               solid: true
             })

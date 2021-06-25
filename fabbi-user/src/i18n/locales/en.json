@@ -1,0 +1,26 @@
+{
+  "dataEmpty": "Data not found",
+  "api": {
+    "loadingFail": "Load Data Fail"
+  },
+  "msgCRUD": {
+    "msgCreate": {
+      "success": "Create Data Success",
+      "fail": "Create Data Fail"
+    },
+    "msgUpdate": {
+      "success": "Update Data Success",
+      "fail": "Update Data Fail"
+    },
+    "msgDelete": {
+      "confirm": "Are you sure want to deleted !",
+      "success": "Delete Data Success",
+      "fail": "Delete Data Fail"
+    }
+  },
+  "auth": {
+    "signup": {
+      "msgSignupSuccess": "Sign up success"
+    }
+  }
+}

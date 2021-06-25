@@ -160,7 +160,7 @@ export default {
     getDataTypePatient: async function () {
       await type_patients.get({ keyword: this.keyword.trim() }).then((response) => {
         this.listTypePatients = response.data;
-        this.listTypePatients.length < 1 ? this.messageCityEmpty = 'Data not found' : this.messageCityEmpty = '';
+        this.listTypePatients.length < 1 ? this.messageCityEmpty = this.$t('dataEmpty') : this.messageCityEmpty = '';
         if (this.keyword !== '') {
           this.$router
               .push({ path: '/type_patients', query: { keyword: this.keyword.trim() }, }).catch(() => {
@@ -170,7 +170,7 @@ export default {
           });
         }
       }).catch(() => {
-        this.makeToast('danger', 'Load data fail');
+        this.makeToast('danger', this.$t('api.loadingFail'));
       })
     },
     //Get type patient by id
@@ -178,18 +178,18 @@ export default {
       await type_patients.edit(id).then((response) => {
         this.typePatient = response.data;
       }).catch(() => {
-        this.makeToast('danger', 'Get data fail');
+        this.makeToast('danger', this.$t('api.loadingFail'));
       });
     },
     // Delete type patient (hard)
     deleteCity: async function (id) {
-      if (confirm('Are you sure want to deleted !')) {
+      if (confirm(this.$t('msgCRUD.msgDelete.confirm'))) {
         await type_patients.delete(id).then(() => {
-              this.makeToast('success', 'Delete data success');
+              this.makeToast('success', this.$t('msgCRUD.msgDelete.success'));
               this.getDataTypePatient();
             }
         ).catch(() => {
-          this.makeToast('danger', 'Delete data fail');
+          this.makeToast('danger', this.$t('msgCRUD.msgDelete.fail'));
         })
       }
     }

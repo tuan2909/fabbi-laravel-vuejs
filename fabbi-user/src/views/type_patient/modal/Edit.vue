@@ -52,11 +52,11 @@ export default {
       await type_patients.update(this.type_patient, this.type_patient.id).then(() => {
         this.messageErrorResponse = {};
         this.$bvModal.hide(this.id);
-        this.makeToast('success', 'Update Type Patient Success');
+        this.makeToast('success', this.$t('msgCRUD.msgUpdate.success'));
         this.$emit('UpdateTypePatient');
       }).catch((error) => {
         this.messageErrorResponse = error.response.data.errors;
-        this.makeToast('danger', 'Update Type Patient Fail');
+        this.makeToast('danger', this.$t('msgCRUD.msgUpdate.fail'));
       })
     }
   },
