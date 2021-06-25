@@ -3,25 +3,35 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\Constant;
+use App\Enums\TypePatient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SpecimenRequest;
 use App\Http\Resources\SpecimenResource;
+use App\Repositories\Patient\PatientRepository;
 use App\Repositories\Specimen\SpecimenRepository;
+use App\Repositories\TypePatient\TypePatientRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class SpecimenController extends Controller
 {
     protected $specimenRepository;
+    protected $typePatientRepository;
+    protected $patientRepository;
 
     /**
      * SpecimenController constructor.
      *
      * @param SpecimenRepository $specimenRepository
      */
-    public function __construct(SpecimenRepository $specimenRepository)
+    public function __construct(SpecimenRepository $specimenRepository,
+                                TypePatientRepository $typePatientRepository,
+                                PatientRepository $patientRepository)
     {
         $this->specimenRepository = $specimenRepository;
+        $this->typePatientRepository = $typePatientRepository;
+        $this->patientRepository = $patientRepository;
     }
 
     /**
@@ -31,14 +41,12 @@ class SpecimenController extends Controller
      */
     public function index()
     {
-        try {
-            $specimens = $this->specimenRepository->all();
-            $collection = SpecimenResource::collection($specimens);
-
+        $specimens = $this->specimenRepository->all();
+        $collection = SpecimenResource::collection($specimens);
+        if ($collection) {
             return response()->json(['data' => $collection],
                 Response::HTTP_FORBIDDEN);
-        } catch (\Exception $e) {
-
+        } else {
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
@@ -48,10 +56,11 @@ class SpecimenController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(SpecimenRequest $request)
     {
+        DB::beginTransaction();
         try {
             $data = [
                 'patient_id' => $request->patient_id,
@@ -61,13 +70,17 @@ class SpecimenController extends Controller
                 'result_test' => $request->result_test,
                 'address' => $request->address,
             ];
-
             $result = $this->specimenRepository->create($data);
+            $patient = $this->patientRepository->find($request->patient_id);
+            $type = $this->typePatientRepository->findWhere(TypePatient::CASE_F0, 'number_type')->firstOrFail();
+            if ((int)$request->result_test === Constant::STATUS_POSITIVE && $result && $patient->type_id !== $type->id) {
+                $this->patientRepository->updateTypePatient($request->patient_id, $type->id);
+            }
             $collection = new SpecimenResource($result);
-
+            DB::commit();
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
-
+            DB::rollBack();
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
@@ -77,17 +90,15 @@ class SpecimenController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        try {
-            $city = $this->specimenRepository->find($id);
-            $collection = new SpecimenResource($city);
-
+        $city = $this->specimenRepository->find($id);
+        $collection = new SpecimenResource($city);
+        if ($collection) {
             return \response()->json(['data' => $collection], Response::HTTP_OK);
-        } catch (\Exception $e) {
-
+        } else {
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
@@ -98,7 +109,7 @@ class SpecimenController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(SpecimenRequest $request, $id)
     {
@@ -108,7 +119,6 @@ class SpecimenController extends Controller
                 'date_infection' => $request->date_infection,
                 'date_draw_blood' => $request->date_draw_blood,
                 'date_test' => $request->date_test,
-                'result_test' => $request->result_test,
                 'address' => $request->address,
             ];
             $result = $this->specimenRepository->update($id, $data);
@@ -126,7 +136,7 @@ class SpecimenController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

@@ -48,7 +48,8 @@ class TypePatientController extends Controller
     {
         try {
             $data = [
-                'name' => $request->name
+                'name' => $request->name,
+                'number_type' => $request->numbertype,
             ];
             $result = $this->typePatientRepository->create($data);
             $collection = new TypePatientResource($result);
@@ -72,7 +73,6 @@ class TypePatientController extends Controller
         $typePatient = $this->typePatientRepository->find($id);
         $collection = new TypePatientResource($typePatient);
         if ($typePatient) {
-
             return \response()->json(['data' => $collection], Response::HTTP_OK);
         } else {
 
@@ -93,7 +93,8 @@ class TypePatientController extends Controller
     {
         try {
             $data = [
-                'name' => $request->name
+                'name' => $request->name,
+                'number_type' => $request->numbertype,
             ];
             $result = $this->typePatientRepository->update($id, $data);
             $collection = new TypePatientResource($result);
