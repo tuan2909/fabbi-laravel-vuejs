@@ -57,9 +57,10 @@ export default {
             this.formCreate = {};
             this.$bvModal.hide(this.id);
             this.$emit('CreateTypePatient');
-            this.makeToast('success', 'Create Type Patient Success')
+            this.makeToast('success', this.$t('msgCRUD.msgCreate.success'));
           }).catch((error) => {
-            this.messageErrorResponse = error.response.data.errors;
+            console.log(error);
+            // this.messageErrorResponse = error.response.data.errors;
           })
     }
   }
