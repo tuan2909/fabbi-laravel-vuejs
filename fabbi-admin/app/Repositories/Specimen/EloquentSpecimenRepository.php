@@ -12,5 +12,10 @@ use App\Repositories\EloquentBaseRepository;
  */
 class EloquentSpecimenRepository extends EloquentBaseRepository implements SpecimenRepository
 {
+    public function getPatientSpecimen()
+    {
+        $result = $this->model->with('patients')->get();
 
+        return $result;
+    }
 }

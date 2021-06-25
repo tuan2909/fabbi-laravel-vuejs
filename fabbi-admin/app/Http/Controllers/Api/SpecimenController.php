@@ -41,12 +41,14 @@ class SpecimenController extends Controller
      */
     public function index()
     {
-        $specimens = $this->specimenRepository->all();
+        $specimens = $this->specimenRepository->getPatientSpecimen();
         $collection = SpecimenResource::collection($specimens);
         if ($collection) {
+
             return response()->json(['data' => $collection],
                 Response::HTTP_FORBIDDEN);
         } else {
+
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
@@ -71,10 +73,13 @@ class SpecimenController extends Controller
                 'address' => $request->address,
             ];
             $result = $this->specimenRepository->create($data);
+            //Find patient by id.
             $patient = $this->patientRepository->find($request->patient_id);
+            //Find type_patient where number type = 0.
             $type = $this->typePatientRepository->findWhere(TypePatient::CASE_F0, 'number_type')->firstOrFail();
+            //Check patient if F0 ->update type patient.
             if ((int)$request->result_test === Constant::STATUS_POSITIVE && $result && $patient->type_id !== $type->id) {
-                $this->patientRepository->updateTypePatient($request->patient_id, $type->id);
+                $this->patientRepository->updateTypePatient($patient->id, $type->id);
             }
             $collection = new SpecimenResource($result);
             DB::commit();
@@ -97,8 +102,10 @@ class SpecimenController extends Controller
         $city = $this->specimenRepository->find($id);
         $collection = new SpecimenResource($city);
         if ($collection) {
+
             return \response()->json(['data' => $collection], Response::HTTP_OK);
         } else {
+
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
