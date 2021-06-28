@@ -16,6 +16,7 @@ class CreateTypePatientsTable extends Migration
         Schema::create('type_patients', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('Tên loại bệnh nhân');
+            $table->bigInteger('number_type')->unique()->nullable()->comment('Số thứ tự');
             $table->timestamps();
         });
     }

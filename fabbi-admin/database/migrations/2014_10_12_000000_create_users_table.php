@@ -19,7 +19,6 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('password_confirmation');
             $table->tinyInteger('status')->default(0)->comment('Trạng thái người dùng/1:Active,0:Disabled');
             $table->tinyInteger('role')->default(1)->comment('Quyền người dùng');
             $table->rememberToken();

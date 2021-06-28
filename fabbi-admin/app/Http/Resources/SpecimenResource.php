@@ -16,7 +16,10 @@ class SpecimenResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'patient_id' => $this->patient_id,
+            'patients' => [
+                'id' => $this->patients->id,
+                'full_name' => $this->patients->full_name
+            ],
             'date_infection' => $this->date_infection,
             'date_draw_blood' => $this->date_draw_blood,
             'date_test' => $this->date_test,

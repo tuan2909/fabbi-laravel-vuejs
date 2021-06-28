@@ -5,6 +5,7 @@ namespace App\Repositories\Patient;
 
 use App\Enums\Constant;
 use App\Repositories\EloquentBaseRepository;
+use Illuminate\Support\Facades\DB;
 
 
 /**
@@ -39,5 +40,14 @@ class EloquentPatientRepository extends EloquentBaseRepository implements Patien
             ->where('id', '=', $id)->firstOrFail();
 
         return $query;
+    }
+
+    public function updateTypePatient($patientId, $typeId)
+    {
+        $result = $this->model->where('id', '=', $patientId)->update([
+            'type_id' => $typeId
+        ]);
+
+        return $result;
     }
 }
