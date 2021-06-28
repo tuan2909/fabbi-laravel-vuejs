@@ -10,6 +10,7 @@ use App\Repositories\Patient\PatientRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 class PatientController extends Controller
@@ -110,16 +111,18 @@ class PatientController extends Controller
         try {
             $dataPatient = $request->all();
             $result = $this->patientRepository->update($id, $dataPatient);
+            Log::info("Update patient>>>>>>>>>>>>>>$result" . $result);
             if ($result) {
                 $dataPatient['patient_id'] = $id;
                 $this->healthPatientRepository->deleteHealthPatient('patient_id', $id);
-                $this->storeHealthPatient($dataPatient);
+                $this->healthPatientRepository->create($dataPatient);
             }
             DB::commit();
 
             return response()->json(['data' => $result], Response::HTTP_OK);
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::info("Update patient>>>>>>>>>>>>>>" . $e->getMessage());
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
