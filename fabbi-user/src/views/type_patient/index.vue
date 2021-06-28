@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LoadingPage :isLoading="isLoading"></LoadingPage>
     <div class="m-3">
       <h2 class="text-center">{{ title_page }}</h2>
     </div>
@@ -86,6 +87,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       keyword: '',
       messageEmptySearch: '',
       title_page: "Manage Type Patients",
@@ -158,6 +160,7 @@ export default {
     },
     // Get data type patient and search (if has) keyword
     getDataTypePatient: async function () {
+      this.isLoading = true;
       await type_patients.get({ keyword: this.keyword.trim() }).then((response) => {
         this.listTypePatients = response.data;
         this.listTypePatients.length < 1 ? this.messageCityEmpty = this.$t('dataEmpty') : this.messageCityEmpty = '';
@@ -171,6 +174,8 @@ export default {
         }
       }).catch(() => {
         this.makeToast('danger', this.$t('api.loadingFail'));
+      }).finally(() => {
+        this.isLoading = false
       })
     },
     //Get type patient by id

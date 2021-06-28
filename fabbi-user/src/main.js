@@ -23,7 +23,9 @@ import "./permission" //permission control
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import i18n from "./i18n/i18n";
+import LoadingPage from "./components/LoadingPage"
 
+Vue.component('LoadingPage', LoadingPage)
 Vue.component('ValidationObserver', ValidationObserver)
 Vue.component('ValidationProvider', ValidationProvider)
 
