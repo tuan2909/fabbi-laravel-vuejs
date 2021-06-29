@@ -19,7 +19,7 @@ class CreatePatientsTable extends Migration
             $table->integer('type_id')->nullable(false)->comment('Id loại bệnh nhân');
             $table->integer('city_id')->nullable(false)->comment('Id thành phố');
             $table->string('full_name')->nullable(false)->comment('Họ và tên bệnh nhân');
-            $table->integer('citizen_identify')->nullable(false)->comment('CMND/CCCD bệnh nhân');
+            $table->string('citizen_identify')->nullable(false)->comment('CMND/CCCD bệnh nhân');
             $table->boolean('gender')->default(true)->comment('Giới tính');
             $table->string('nation')->nullable(false)->comment('Quốc tịch');
             $table->integer('year_birth')->nullable()->comment('Năm sinh');

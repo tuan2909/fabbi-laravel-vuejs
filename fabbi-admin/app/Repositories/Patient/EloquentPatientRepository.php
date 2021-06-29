@@ -18,11 +18,11 @@ class EloquentPatientRepository extends EloquentBaseRepository implements Patien
     /**
      * Get list data Patient with paginate.
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function getDataPatients()
     {
-        $query = $this->model->with('cities', 'users', 'typePatients')->paginate(Constant::ITEM_PER_PAGE);
+        $query = $this->model->with('cities', 'users', 'typePatients')->orderByDesc('id')->get();
 
         return $query;
     }
