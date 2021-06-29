@@ -24,7 +24,7 @@ class CreateHealthPatientsTable extends Migration
             $table->boolean('diarrhea')->default(false)->comment('Tiêu chảy');
             $table->boolean('skin_haemorrhage')->default(false)->comment('Sốt');
             $table->boolean('rash')->default(false)->comment('Xuất huyết da');
-            $table->text('other')->comment('Bệnh khác');
+            $table->text('other')->nullable()->comment('Bệnh khác');
             $table->timestamps();
         });
     }
