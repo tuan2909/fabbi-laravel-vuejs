@@ -37,9 +37,9 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $patients = $this->patientRepository->getDataPatients();
+        $patients = $this->patientRepository->getDataPatients($request->keyword);
         $collection = PatientResource::collection($patients);
         if ($collection) {
 

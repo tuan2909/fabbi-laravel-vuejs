@@ -46,7 +46,7 @@ class SpecimenController extends Controller
         if ($collection) {
 
             return response()->json(['data' => $collection],
-                Response::HTTP_FORBIDDEN);
+                Response::HTTP_OK);
         } else {
 
             return response()->json(['message' => trans('message.api.loading_data_false')],
