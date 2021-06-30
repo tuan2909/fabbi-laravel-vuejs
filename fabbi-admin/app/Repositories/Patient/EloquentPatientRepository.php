@@ -20,11 +20,14 @@ class EloquentPatientRepository extends EloquentBaseRepository implements Patien
      *
      * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function getDataPatients()
+    public function getDataPatients($keyword)
     {
-        $query = $this->model->with('cities', 'users', 'typePatients')->orderByDesc('id')->get();
-
-        return $query;
+        $query = $this->model->with('cities', 'users', 'typePatients');
+        if ($keyword) {
+            $query = $query->where('patients.full_name', 'like', '%' . $keyword . '%');
+        }
+        $result = $query->orderByDesc('id')->get();
+        return $result;
     }
 
     /**
