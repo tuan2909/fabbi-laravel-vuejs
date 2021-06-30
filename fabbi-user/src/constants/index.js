@@ -13,3 +13,4 @@ export const GENDER = {
     MALE: 'Male',
     FEMALE: 'Female',
 }
+export const FORMAT_TIME = 'YYYY-MM-DD HH:MM'

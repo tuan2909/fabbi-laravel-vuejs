@@ -46,11 +46,9 @@ class EloquentPatientRepository extends EloquentBaseRepository implements Patien
         return $query;
     }
 
-    public function updateTypePatient($patientId, $typeId)
+    public function updateTypePatient($patientId, $typeData)
     {
-        $result = $this->model->where('id', '=', $patientId)->update([
-            'type_id' => $typeId
-        ]);
+        $result = $this->model->where('id', '=', $patientId)->update($typeData);
 
         return $result;
     }

@@ -9,6 +9,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueDayjs from 'vue-dayjs-plugin'
 import CKEditor from 'ckeditor4-vue';
 
+
 Vue.use(CKEditor);
 Vue.use(VueDayjs)
 
