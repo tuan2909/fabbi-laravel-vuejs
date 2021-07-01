@@ -6,6 +6,11 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueDayjs from 'vue-dayjs-plugin'
+import CKEditor from 'ckeditor4-vue';
+
+Vue.use(CKEditor);
+Vue.use(VueDayjs)
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
@@ -25,6 +30,7 @@ import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import i18n from "./i18n/i18n";
 import LoadingPage from "./components/LoadingPage"
 
+// Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('LoadingPage', LoadingPage)
 Vue.component('ValidationObserver', ValidationObserver)
 Vue.component('ValidationProvider', ValidationProvider)
@@ -32,6 +38,7 @@ Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('user-layout', UserLayout);
 Vue.component('default-layout', DefaultLayout);
 Vue.component('admin-layout', AdminLayout);
+
 new Vue({
     router,
     store,

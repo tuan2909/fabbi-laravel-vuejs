@@ -35,6 +35,24 @@ const routes = [
         component: () => import('../views/type_patient/index')
     },
     {
+        path: '/patients/',
+        name: 'patient',
+        meta: { layout: 'admin' },
+        component: () => import('../views/patient/index')
+    },
+    {
+        path: '/patients/create',
+        name: 'create_patient',
+        meta: { layout: 'admin' },
+        component: () => import('../views/patient/create')
+    },
+    {
+        path: '/patients/:id',
+        name: 'patient_edit',
+        meta: { layout: 'admin' },
+        component: () => import('../views/patient/edit')
+    },
+    {
         path: "/login",
         name: 'login',
         meta: { layout: 'default' },

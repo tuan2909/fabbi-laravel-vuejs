@@ -22,5 +22,38 @@
     "signup": {
       "msgSignupSuccess": "Sign up success"
     }
+  },
+  "healPatient": {
+    "fever": "Fever",
+    "cough": "Cough",
+    "difficultyBreathing": "Difficulty Breathing",
+    "soreThroat": "Sore Throat",
+    "vomiting": "Vomiting",
+    "diarrhea": "Diarrhea",
+    "skinHaemorrhage": "Skin Haemorrhage",
+    "rash": "Rash"
+  },
+  "patient": {
+    "placeholder": {
+      "fullName": "Enter full name",
+      "nation": "Enter nation",
+      "yearBirth": "Enter year of birth",
+      "citizenIdentify": "Enter citizen identify",
+      "address": "Enter address",
+      "phone": "Enter phone",
+      "email": "Enter email",
+      "addressStart": "Enter address start",
+      "addressEnd": "Enter address end",
+      "other": "Other if you have"
+    }
+  },
+  "user": {
+    "loadDataFail": "Loading User Fail"
+  },
+  "typePatient": {
+    "loadDataFail": "Loading Type Patient Fail"
+  },
+  "city": {
+    "loadDataFail": "Loading City Fail"
   }
 }
