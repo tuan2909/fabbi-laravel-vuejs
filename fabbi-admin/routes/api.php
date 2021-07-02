@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\TypePatientController;
 use App\Http\Controllers\Api\SpecimenController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\HealPatientController;
+use App\Http\Controllers\Api\QuarantinePatientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::resource('users', UserController::class);
     Route::resource('patients', PatientController::class);
     Route::get('patients/{id}/parents', [PatientController::class, 'getParentPatientByType']);
+    Route::resource('quarantines', QuarantinePatientController::class);
     Route::post('logout', [LogoutController::class, 'logout']);
     Route::get('/heal_patients/{id}', [HealPatientController::class, 'getHealPatientByIdPatient']);
 });

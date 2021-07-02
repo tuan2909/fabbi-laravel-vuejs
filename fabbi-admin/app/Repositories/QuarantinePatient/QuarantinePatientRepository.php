@@ -11,6 +11,6 @@ use App\Repositories\BaseRepository;
  */
 interface QuarantinePatientRepository extends BaseRepository
 {
-
+    public function getDataQuarantines($id);
 
 }
