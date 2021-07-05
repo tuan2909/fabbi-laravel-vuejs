@@ -12,5 +12,10 @@ use App\Repositories\EloquentBaseRepository;
  */
 class EloquentQuarantinePatientRepository extends EloquentBaseRepository implements QuarantinePatientRepository
 {
+    public function getDataQuarantines($id)
+    {
+        $result = $this->model->with('patients')->orderByDesc('id')->get();
 
+        return $result;
+    }
 }
