@@ -15,7 +15,7 @@ class CreateSpecimensTable extends Migration
     {
         Schema::create('specimens', function (Blueprint $table) {
             $table->id();
-            $table->integer('patient_id')->nullable(false)->comment('Id bệnh nhân');
+            $table->integer('quarantine_id')->nullable(false)->comment('Id bệnh nhân');
             $table->dateTime('date_infection')->nullable()->comment('Ngày nhiễm bệnh');
             $table->dateTime('date_draw_blood')->nullable(false)->comment('Ngày lấy máu');
             $table->dateTime('date_test')->nullable(false)->comment('Ngày kiểm tra');

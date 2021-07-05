@@ -22,11 +22,12 @@ class EloquentPatientRepository extends EloquentBaseRepository implements Patien
      */
     public function getDataPatients($keyword)
     {
-        $query = $this->model->with('cities', 'users', 'typePatients');
+        $query = $this->model->with('cities');
         if ($keyword) {
             $query = $query->where('patients.full_name', 'like', '%' . $keyword . '%');
         }
         $result = $query->orderByDesc('id')->get();
+
         return $result;
     }
 
@@ -39,7 +40,7 @@ class EloquentPatientRepository extends EloquentBaseRepository implements Patien
      */
     public function getPatientBy($id)
     {
-        $query = $this->model->with('cities', 'users', 'typePatients')
+        $query = $this->model->with('cities')
             ->where('id', '=', $id)->firstOrFail();
 
         return $query;
@@ -52,5 +53,12 @@ class EloquentPatientRepository extends EloquentBaseRepository implements Patien
         ]);
 
         return $result;
+    }
+
+    public function getParentPatients($number)
+    {
+        $result = $this->model->where('type_patient', '=', $number)->get();
+
+        dd($result);
     }
 }

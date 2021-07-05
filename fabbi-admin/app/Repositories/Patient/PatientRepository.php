@@ -16,4 +16,6 @@ interface PatientRepository extends BaseRepository
     public function getPatientBy($id);
 
     public function updateTypePatient($patientId, $typeId);
+
+    public function getParentPatients($number);
 }

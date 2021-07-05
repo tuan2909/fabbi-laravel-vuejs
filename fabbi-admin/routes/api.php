@@ -36,6 +36,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::resource('specimens', SpecimenController::class);
     Route::resource('users', UserController::class);
     Route::resource('patients', PatientController::class);
+    Route::get('patients/{id}/parents', [PatientController::class, 'getParentPatientByType']);
     Route::post('logout', [LogoutController::class, 'logout']);
     Route::get('/heal_patients/{id}', [HealPatientController::class, 'getHealPatientByIdPatient']);
 });

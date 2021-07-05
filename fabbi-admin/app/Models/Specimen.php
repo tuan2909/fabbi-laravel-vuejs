@@ -22,7 +22,7 @@ class Specimen extends Model
      * @var array
      */
     protected $fillable = [
-        'patient_id',
+        'quarantine_id',
         'date_infection',
         'date_draw_blood',
         'date_test',
@@ -36,8 +36,8 @@ class Specimen extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function patients()
+    public function quarantine()
     {
-        return $this->belongsTo(Patient::class, 'patient_id', 'id');
+        return $this->belongsTo(QuarantinePatient::class, 'quarantine_id', 'id');
     }
 }

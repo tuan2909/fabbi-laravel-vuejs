@@ -15,8 +15,8 @@ class CreatePatientsTable extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->nullable(false)->comment('Id Người dùng');
-            $table->integer('type_id')->nullable(false)->comment('Id loại bệnh nhân');
+            $table->integer('parent_id')->nullable()->comment('Id Người dùng');
+            $table->integer('type_patient')->nullable(false)->comment('Loại bệnh nhân/f0,f1,f2,f3');
             $table->integer('city_id')->nullable(false)->comment('Id thành phố');
             $table->string('full_name')->nullable(false)->comment('Họ và tên bệnh nhân');
             $table->string('citizen_identify')->nullable(false)->comment('CMND/CCCD bệnh nhân');

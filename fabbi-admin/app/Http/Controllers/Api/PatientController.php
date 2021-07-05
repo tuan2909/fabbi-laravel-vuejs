@@ -73,6 +73,7 @@ class PatientController extends Controller
             return response()->json(['data' => $result], Response::HTTP_OK);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
@@ -148,6 +149,20 @@ class PatientController extends Controller
             return response()->json(['message' => trans('message.api.loading_data_true')], Response::HTTP_OK);
         } catch (\Exception $e) {
             DB::rollBack();
+            return response()->json(['message' => trans('message.api.loading_data_false')],
+                Response::HTTP_FORBIDDEN);
+        }
+    }
+
+    public function getParentPatientByType($number)
+    {
+        $result = $this->patientRepository->getParentPatients($number);
+        $collection = PatientResource::collection($result);
+        if ($result) {
+
+            return response()->json(['data' => $collection], Response::HTTP_OK);
+        } else {
+
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }

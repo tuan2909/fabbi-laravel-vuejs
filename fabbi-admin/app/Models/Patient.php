@@ -22,8 +22,8 @@ class Patient extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
-        'type_id',
+        'parent_id',
+        'type_patient',
         'city_id',
         'full_name',
         'citizen_identify',
@@ -56,16 +56,6 @@ class Patient extends Model
     public function typePatients()
     {
         return $this->belongsTo(TypePatient::class, 'type_id', 'id');
-    }
-
-    /**
-     * One patient  belong to one user
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function users()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function health()
