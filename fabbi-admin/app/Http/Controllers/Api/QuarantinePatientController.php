@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\QuarantineRequest;
 use App\Http\Requests\TypePatientStore;
 use App\Http\Requests\TypePatientUpdate;
 use App\Http\Resources\QuarantineResource;
@@ -12,6 +13,7 @@ use App\Repositories\TypePatient\TypePatientRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class QuarantinePatientController extends Controller
 {
@@ -47,7 +49,7 @@ class QuarantinePatientController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(TypePatientStore $request)
+    public function store(QuarantineRequest $request)
     {
         try {
             $result = $this->quarantinePatientRepository->create($request->all());
@@ -69,9 +71,9 @@ class QuarantinePatientController extends Controller
      */
     public function show($id)
     {
-        $typePatient = $this->typePatientRepository->find($id);
-        $collection = new TypePatientResource($typePatient);
-        if ($typePatient) {
+        $quarantine = $this->quarantinePatientRepository->find($id);
+        $collection = new QuarantineResource($quarantine);
+        if ($quarantine) {
             return \response()->json(['data' => $collection], Response::HTTP_OK);
         } else {
 
@@ -88,15 +90,11 @@ class QuarantinePatientController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(TypePatientUpdate $request, $id)
+    public function update(QuarantineRequest $request, $id)
     {
         try {
-            $data = [
-                'name' => $request->name,
-                'number_type' => $request->numbertype,
-            ];
-            $result = $this->typePatientRepository->update($id, $data);
-            $collection = new TypePatientResource($result);
+            $result = $this->quarantinePatientRepository->update($id, $request->all());
+            $collection = new QuarantineResource($result);
 
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
@@ -115,7 +113,7 @@ class QuarantinePatientController extends Controller
     public function destroy($id)
     {
         try {
-            $result = $this->typePatientRepository->delete($id);
+            $result = $this->quarantinePatientRepository->delete($id);
             if ($result) {
 
                 return response()->json(['message' => trans('message.api.loading_data_true')], Response::HTTP_OK);
