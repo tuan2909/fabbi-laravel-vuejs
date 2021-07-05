@@ -36,11 +36,16 @@
           :current-page="currentPage"
           :items="listPatients"
           :fields="fields">
-        <template #cell(user)="row">
-          {{ row.item.user.name }}
+        <template #cell(parent)="row">
+        <span v-if="row.item.parent_patient !== null">
+            {{ row.item.parent_patient.full_name }}
+        </span>
+          <span v-else>
+            {{ $t('patient.noParentName') }}
+          </span>
         </template>
         <template #cell(type_patient)="row">
-          {{ row.item.type_patient.name }}
+          F{{ row.item.type_patient }}
         </template>
         <template #cell(cities)="row">
           {{ row.item.cities.name }}
@@ -133,17 +138,18 @@ export default {
           sortable: true
         },
         {
-          key: 'type_patient',
-          label: 'Type Patient',
-          sortable: true
-        }, {
-          key: 'cities',
-          label: 'City',
+          key: 'parent',
+          label: 'Parent Patient',
           sortable: true
         },
         {
-          key: 'user',
-          label: 'User',
+          key: 'type_patient',
+          label: 'Type Patient',
+          sortable: true
+        },
+        {
+          key: 'cities',
+          label: 'City',
           sortable: true
         },
         {

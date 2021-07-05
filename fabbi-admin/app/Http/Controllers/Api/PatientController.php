@@ -43,7 +43,6 @@ class PatientController extends Controller
         $patients = $this->patientRepository->getDataPatients($request->keyword);
         $collection = PatientResource::collection($patients);
         if ($collection) {
-
             return response()->json(['data' => $collection], Response::HTTP_OK);
         } else {
 
@@ -89,7 +88,7 @@ class PatientController extends Controller
     {
         $patient = $this->patientRepository->getPatientBy($id);
         $collection = new PatientResource($patient);
-        if ($patient) {
+        if ($collection) {
 
             return response()->json(['data' => $collection], Response::HTTP_OK);
         } else {

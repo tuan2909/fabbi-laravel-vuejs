@@ -58,6 +58,11 @@ class Patient extends Model
         return $this->belongsTo(TypePatient::class, 'type_id', 'id');
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id', 'id');
+    }
+
     public function health()
     {
         return $this->hasOne(HealthPatient::class, 'patient_id', 'id');

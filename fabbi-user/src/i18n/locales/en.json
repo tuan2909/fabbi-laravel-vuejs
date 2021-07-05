@@ -34,6 +34,7 @@
     "rash": "Rash"
   },
   "patient": {
+    "noParentName": "No Parent Name",
     "placeholder": {
       "fullName": "Enter full name",
       "nation": "Enter nation",
