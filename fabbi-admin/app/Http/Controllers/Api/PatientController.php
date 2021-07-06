@@ -158,7 +158,7 @@ class PatientController extends Controller
     {
         $result = $this->patientRepository->getParentPatients($number);
         $collection = PatientResource::collection($result);
-        if ($result) {
+        if ($result || $result === []) {
 
             return response()->json(['data' => $collection], Response::HTTP_OK);
         } else {

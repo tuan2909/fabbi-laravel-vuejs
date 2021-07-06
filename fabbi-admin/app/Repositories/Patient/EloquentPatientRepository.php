@@ -57,8 +57,12 @@ class EloquentPatientRepository extends EloquentBaseRepository implements Patien
 
     public function getParentPatients($number)
     {
-        $result = $this->model->where('type_patient', '=', $number)->get();
+        if ($number > 0) {
+            $result = $this->model->where('type_patient', '=', $number - 1)->get();
+        } else {
+            $result = [];
+        }
 
-        dd($result);
+        return $result;
     }
 }
