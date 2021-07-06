@@ -6,14 +6,26 @@
   </div>
 </template>
 <script>
-const defaultLayout = "default";
+const defaultLayout = 'default'
+
 export default {
-  computed: {
-    layout() {
-      return `${this.$route.meta.layout}-layout` || `${defaultLayout} -layout`;
+  data: () => ({
+    layout: '',
+  }),
+  watch: {
+    $route: function (val) {
+      if (val) {
+        this.layout = this.$route.meta.layout + '-layout'
+      }
     },
   },
-};
+  created() {
+    this.layout = defaultLayout + '-layout'
+    if (this.$route && this.$route.params.layout) {
+      this.layout = this.$route.meta.layout + '-layout'
+    }
+  },
+}
 </script>
 <style>
 @import "assets/css/backend.min0ff5.css?v=1.0.2";
