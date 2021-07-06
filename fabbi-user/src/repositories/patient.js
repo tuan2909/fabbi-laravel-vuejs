@@ -50,7 +50,14 @@ export default {
      */
     delete(id) {
         return request.delete(`${requestURL}/${id}`)
+    },
+    /**
+     *Get parent patient by type patient
+     *
+     * @param id
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    getParentPatientType(id) {
+        return request.get(`${requestURL}/${id}/parents`)
     }
-
-
 }

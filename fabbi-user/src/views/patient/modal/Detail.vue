@@ -36,11 +36,11 @@
       <b-col>
         <b-form-group
             id="input-group-1"
-            label="Account User: "
+            label="Parent Patient: "
             label-for="input-1"
         >
           <b-form-input
-              v-model.lazy="this.nameUser"
+              v-model="this.parentPatient"
               id="input-1"
               type="text"
               placeholder=""
@@ -401,11 +401,13 @@ export default {
     addressEnd() {
       return this.patient.address_end || '';
     },
-    nameUser() {
-      return this.patient.user.name || '';
-    },
     typePatient() {
-      return this.patient.type_patient.name || '';
+      return this.patient.type_patient;
+    },
+    parentPatient() {
+      const parent = this.patient.parent_patient;
+
+      return parent ? this.patient.parent_patient.full_name : this.$t('patient.noParentName');
     },
     city() {
       return this.patient.cities.name || '';

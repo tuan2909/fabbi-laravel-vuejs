@@ -37,11 +37,12 @@
                 <ValidationProvider v-slot="{errors}" name="Type Patient" rules="required">
                   <b-form-select
                       v-if="Object.keys(formEdit).length > 0"
-                      v-model="formEdit.type_patient.id"
+                      v-model="formEdit.type_patient"
                       :options="typePatients"
                       class="mb-3"
-                      value-field="id"
+                      value-field="value"
                       text-field="name"
+                      @change="getListParentPatient(formEdit.type_patient)"
                   ></b-form-select>
                   <p class="text-danger">{{ errors[0] }}</p>
                   <span
@@ -50,30 +51,30 @@
                 </ValidationProvider>
               </b-form-group>
             </b-col>
-          </b-row>
-          <b-row>
-            <b-col>
+            <b-col v-if="listParentPatient.length>0 ">
               <b-form-group
                   id="input-group-1"
-                  label="Account User: "
+                  label="Parent Patient: "
                   label-for="input-1"
               >
-                <ValidationProvider v-slot="{errors}" name="account_user" rules="required">
+                <ValidationProvider v-slot="{errors}" name="parent patient" rules="required">
                   <b-form-select
-                      v-if="Object.keys(formEdit).length > 0"
-                      v-model="formEdit.user.id"
-                      :options="listUsers"
+                      v-if="Object.keys(formEdit).length > 0|| formEdit.parent_patient !==null"
+                      v-model="formEdit.parent_patient.id"
+                      :options="listParentPatient"
                       class="mb-3"
                       value-field="id"
-                      text-field="name"
+                      text-field="full_name"
                   ></b-form-select>
                   <p class="text-danger">{{ errors[0] }}</p>
                   <span
-                      v-if="messageErrorResponse.user_id"
-                      class="d-block text-danger my-0">{{ messageErrorResponse.user_id[0] }}</span>
+                      v-if="messageErrorResponse.parent_id"
+                      class="d-block text-danger my-0">{{ messageErrorResponse.parent_id[0] }}</span>
                 </ValidationProvider>
               </b-form-group>
             </b-col>
+          </b-row>
+          <b-row>
             <b-col>
               <b-form-group
                   id="input-group-1"
@@ -86,6 +87,28 @@
                       :options="genders"
                       class="mb-3"
                       value-field="value"
+                      text-field="name"
+                  ></b-form-select>
+                  <p class="text-danger">{{ errors[0] }}</p>
+                  <span
+                      v-if="messageErrorResponse.gender"
+                      class="d-block text-danger my-0">{{ messageErrorResponse.gender[0] }}</span>
+                </ValidationProvider>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group
+                  id="input-group-1"
+                  label="City Live: "
+                  label-for="input-1"
+              >
+                <ValidationProvider v-slot="{errors}" name="city" rules="required">
+                  <b-form-select
+                      v-if="Object.keys(formEdit).length > 0"
+                      v-model="formEdit.cities.id"
+                      :options="listCities"
+                      class="mb-3"
+                      value-field="id"
                       text-field="name"
                   ></b-form-select>
                   <p class="text-danger">{{ errors[0] }}</p>
@@ -372,7 +395,7 @@
 
 <script>
 import RepositoryFactory from "../../repositories/factory";
-import { GENDER } from "../../constants/index"
+import { GENDER, TYPE_PATIENT } from "../../constants/index"
 import patient from "../../repositories/patient";
 import router from "../../router";
 
@@ -391,8 +414,8 @@ export default {
         { value: 1, name: GENDER.MALE },
       ],
       healPatient: {},
-      typePatients: [],
-      listUsers: [],
+      typePatients: TYPE_PATIENT,
+      listParentPatient: [],
       listCities: [],
       isLoading: false,
       title_page: 'Edit Patient',
@@ -403,22 +426,26 @@ export default {
   created() {
     this.getPatient();
     this.getHealthPatient();
-    this.getTypePatients();
-    this.getUsers();
     this.getCities()
   },
   methods: {
+    getListParentPatient: async function (value) {
+      if (this.formEdit.parent_patient === null) {
+        this.formEdit.parent_patient = [];
+      }
+      this.isLoading = true
+      await patient.getParentPatientType(value).then((response) => {
+        this.listParentPatient = response.data;
+      }).catch(() => {
+        this.makeToast('danger', this.$t('api.loadingFail'));
+      }).finally(() => {
+        this.isLoading = false;
+      })
+    },
     makeToast(variant = null, message) {
       this.$bvToast.toast(message, {
         variant: variant,
         solid: true
-      })
-    },
-    getUsers: async function () {
-      await users.get().then((response) => {
-        this.listUsers = response.data;
-      }).catch(() => {
-        this.makeToast('danger', this.$t('user.loadDataFail'));
       })
     },
     getTypePatients: async function () {
@@ -447,6 +474,8 @@ export default {
       const id = this.$route.params.id;
       await patient.edit(id).then((response) => {
         this.formEdit = response.data;
+        console.log(response.data)
+        this.getListParentPatient(response.data.type_patient);
       }).catch(() => {
         this.makeToast('danger', this.$t('city.loadDataFail'));
       })
@@ -455,15 +484,15 @@ export default {
       this.isLoading = true;
       const id = this.$route.params.id;
       let data = {
-        'type_id': this.formEdit.type_patient.id,
-        'user_id': this.formEdit.user.id,
-        'city_id': this.formEdit.cities.id
-      };
+        'parent_id': this.formEdit.parent_patient.id,
+      }
+      this.formEdit.type_patient === 0 ? data.parent_id = '' : data
       this.formEdit = {
         ...this.formEdit,
         ...data,
         ...this.healPatient
       }
+      console.log(this.formEdit);
       await patients.update(this.formEdit, id).then(() => {
         this.makeToast('success', this.$t('msgCRUD.msgUpdate.success'));
         router.push({ path: '/patients' })

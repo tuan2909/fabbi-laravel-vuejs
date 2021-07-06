@@ -14,7 +14,7 @@
                   label="Full Name: "
                   label-for="input-1"
               >
-                <ValidationProvider v-slot="{errors}" name="full_name" rules="required|min:3|max:30">
+                <ValidationProvider v-slot="{errors}" name="full name" rules="required|min:3|max:30">
                   <b-form-input
                       v-model="formCreate.full_name"
                       id="input-1"
@@ -34,36 +34,37 @@
                   label="Type Patient: "
                   label-for="input-2"
               >
-                <ValidationProvider v-slot="{errors}" name="Type Patient" rules="required">
+                <ValidationProvider v-slot="{errors}" name="type patient" rules="required">
                   <b-form-select
-                      v-model="formCreate.type_id"
-                      :options="typePatients"
+                      v-model="formCreate.type_patient"
                       class="mb-3"
-                      value-field="id"
-                      text-field="name"
-                  ></b-form-select>
+                      @change="getListParentPatient(formCreate.type_patient)"
+                  >
+                    <b-form-select-option v-for="parent in typePatients"
+                                          :value="parent.value">
+                      {{ parent.name }}
+                    </b-form-select-option>
+                  </b-form-select>
                   <p class="text-danger">{{ errors[0] }}</p>
                   <span
-                      v-if="messageErrorResponse.type_id"
-                      class="d-block text-danger my-0">{{ messageErrorResponse.type_id[0] }}</span>
+                      v-if="messageErrorResponse.type_patient"
+                      class="d-block text-danger my-0">{{ messageErrorResponse.type_patient[0] }}</span>
                 </ValidationProvider>
               </b-form-group>
             </b-col>
-          </b-row>
-          <b-row>
-            <b-col>
+            <b-col v-if="listParentPatient.length>0">
               <b-form-group
                   id="input-group-1"
-                  label="Account User: "
+                  label="Parent Patient: "
                   label-for="input-1"
               >
-                <ValidationProvider v-slot="{errors}" name="account_user" rules="required">
+                <ValidationProvider v-slot="{errors}" name="parent patient" rules="required">
                   <b-form-select
-                      v-model="formCreate.user_id"
-                      :options="listUsers"
+                      v-model="formCreate.parent_id"
+                      :options="listParentPatient"
                       class="mb-3"
                       value-field="id"
-                      text-field="name"
+                      text-field="full_name"
                   ></b-form-select>
                   <p class="text-danger">{{ errors[0] }}</p>
                   <span
@@ -72,6 +73,8 @@
                 </ValidationProvider>
               </b-form-group>
             </b-col>
+          </b-row>
+          <b-row>
             <b-col>
               <b-form-group
                   id="input-group-1"
@@ -93,8 +96,6 @@
                 </ValidationProvider>
               </b-form-group>
             </b-col>
-          </b-row>
-          <b-row>
             <b-col>
               <b-form-group
                   id="input-group-1"
@@ -116,6 +117,8 @@
                 </ValidationProvider>
               </b-form-group>
             </b-col>
+          </b-row>
+          <b-row>
             <b-col>
               <b-form-group
                   id="input-group-1"
@@ -368,7 +371,7 @@
 
 <script>
 import RepositoryFactory from "../../repositories/factory";
-import { GENDER } from "../../constants/index"
+import { GENDER, TYPE_PATIENT } from "../../constants/index"
 import patient from "../../repositories/patient";
 import router from "../../router";
 
@@ -385,15 +388,15 @@ export default {
         { value: 0, name: GENDER.FEMALE },
         { value: 1, name: GENDER.MALE },
       ],
-      typePatients: [],
-      listUsers: [],
+      typePatients: TYPE_PATIENT,
+      listParentPatient: [],
       listCities: [],
       isLoading: false,
       title_page: 'Create Patient',
       formCreate: {
         full_name: '',
-        user_id: '',
-        type_id: '',
+        parent_id: '',
+        type_patient: '',
         city_id: '',
         citizen_identify: '',
         gender: 0,
@@ -418,29 +421,23 @@ export default {
     }
   },
   created() {
-    this.getTypePatients();
-    this.getUsers();
     this.getCities()
   },
   methods: {
+    getListParentPatient: async function (value) {
+      this.isLoading = true
+      await patient.getParentPatientType(value).then((response) => {
+        this.listParentPatient = response.data;
+      }).catch(() => {
+        this.makeToast('danger', this.$t('api.loadingFail'));
+      }).finally(() => {
+        this.isLoading = false;
+      })
+    },
     makeToast(variant = null, message) {
       this.$bvToast.toast(message, {
         variant: variant,
         solid: true
-      })
-    },
-    getUsers: async function () {
-      await users.get().then((response) => {
-        this.listUsers = response.data;
-      }).catch(() => {
-        this.makeToast('danger', this.$t('user.loadDataFail'));
-      })
-    },
-    getTypePatients: async function () {
-      await type_patients.get().then((response) => {
-        this.typePatients = response.data;
-      }).catch(() => {
-        this.makeToast('danger', this.$t('typePatient.loadDataFail'));
       })
     },
     getCities: async function () {
@@ -452,6 +449,9 @@ export default {
     },
     onSubmitForm: async function () {
       this.isLoading = true;
+      if (this.formCreate.type_patient === 0) {
+        this.formCreate.parent_id = '';
+      }
       await patients.create(this.formCreate).then(() => {
         this.makeToast('success', this.$t('msgCRUD.msgCreate.success'))
         router.push({ path: '/patients' })

@@ -22,7 +22,7 @@ class EloquentPatientRepository extends EloquentBaseRepository implements Patien
      */
     public function getDataPatients($keyword)
     {
-        $query = $this->model->with('cities');
+        $query = $this->model->with('cities', 'parent');
         if ($keyword) {
             $query = $query->where('patients.full_name', 'like', '%' . $keyword . '%');
         }
@@ -40,9 +40,8 @@ class EloquentPatientRepository extends EloquentBaseRepository implements Patien
      */
     public function getPatientBy($id)
     {
-        $query = $this->model->with('cities')
+        $query = $this->model->with('cities', 'parent')
             ->where('id', '=', $id)->firstOrFail();
-
         return $query;
     }
 
