@@ -62,4 +62,11 @@ class EloquentPatientRepository extends EloquentBaseRepository implements Patien
 
         return $result;
     }
+
+    public function getListPatientNotQuarantine($patientsId)
+    {
+        $result = $this->model->whereNotIn('id', $patientsId)->orderByDesc('id')->get();
+
+        return $result;
+    }
 }

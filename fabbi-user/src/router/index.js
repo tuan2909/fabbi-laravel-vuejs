@@ -53,10 +53,18 @@ const routes = [
         component: () => import('../views/patient/edit')
     },
     {
+
         path: '/specimens',
         name: 'specimens',
         meta: { layout: 'admin' },
         component: () => import('../views/specimen/index')
+    },
+    {
+        path: '/quarantines',
+        name: 'quarantines',
+        meta: { layout: 'admin' },
+        component: () => import('../views/quarantine/index')
+
     },
     {
         path: "/login",

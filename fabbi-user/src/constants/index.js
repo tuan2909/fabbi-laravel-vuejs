@@ -23,3 +23,13 @@ export const TYPE_PATIENT = [
     { 'value': 3, 'name': 'F3' },
 ]
 
+export const STATUS_QUARANTINE = [
+    { 'value': 0, 'name': 'Waiting' },
+    { 'value': 1, 'name': 'Active' },
+]
+export const QUARANTINE = {
+    WAITING: 0,
+    ACTIVE: 1,
+    DISABLED: -1,
+}
+

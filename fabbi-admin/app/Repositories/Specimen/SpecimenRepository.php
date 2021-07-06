@@ -11,6 +11,7 @@ use App\Repositories\BaseRepository;
  */
 interface SpecimenRepository extends BaseRepository
 {
+    public function checkSpecimenPatient($data);
 
     public function getPatientSpecimen($data);
 

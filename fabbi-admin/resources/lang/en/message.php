@@ -6,5 +6,8 @@ return [
     ],
     'user' => [
         'false_delete' => 'Delete patient before delete user'
+    ],
+    'quarantine'=>[
+        'condition_out_quarantine'=>'Not eligible for isolation'
     ]
 ];

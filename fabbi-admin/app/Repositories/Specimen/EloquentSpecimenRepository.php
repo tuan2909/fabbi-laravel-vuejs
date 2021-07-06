@@ -3,6 +3,7 @@
 namespace App\Repositories\Specimen;
 
 
+use App\Enums\Constant;
 use App\Repositories\EloquentBaseRepository;
 use Illuminate\Support\Facades\DB;
 
@@ -13,6 +14,19 @@ use Illuminate\Support\Facades\DB;
  */
 class EloquentSpecimenRepository extends EloquentBaseRepository implements SpecimenRepository
 {
+    public function checkSpecimenPatient($data)
+    {
+
+        if (isset($data['id']) && !empty($data['id'])) {
+            $result = $this->model
+                ->where('quarantine_id', '=', $data['id'])
+                ->where('result_test', '=', Constant::STATUS_NEGATIVE)
+                ->count();
+
+            return $result;
+        }
+    }
+
     public function getPatientSpecimen($data)
     {
         $query = DB::table('specimens')

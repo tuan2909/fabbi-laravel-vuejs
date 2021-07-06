@@ -1,11 +1,11 @@
-import AuthRepository from "./auth";
-import CityRepository from "./city";
-import TypePatientRepository from "./type_patient";
-import PatientRepository from "./patient";
-import UserRepository from "./user_custom";
-import HealPatientRepository from "./heal_patient";
-import SpecimenRepository from "./specimen";
-import QuarantineRepository from "./quarantine_custom";
+import AuthRepository from "./auth"
+import CityRepository from "./city"
+import TypePatientRepository from "./type_patient"
+import PatientRepository from "./patient"
+import UserRepository from "./user_custom"
+import HealPatientRepository from "./heal_patient"
+import QuarantineRepository from "./quarantine"
+import SpecimenRepository from "./specimen"
 
 const repositories = {
     auth: AuthRepository,
