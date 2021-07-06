@@ -8,17 +8,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SpecimenRequest;
 use App\Http\Resources\SpecimenResource;
 use App\Repositories\Patient\PatientRepository;
+use App\Repositories\QuarantinePatient\QuarantinePatientRepository;
 use App\Repositories\Specimen\SpecimenRepository;
 use App\Repositories\TypePatient\TypePatientRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SpecimenController extends Controller
 {
     protected $specimenRepository;
     protected $typePatientRepository;
     protected $patientRepository;
+    protected $quarantinePatientRepository;
 
     /**
      * SpecimenController constructor.
@@ -27,11 +30,14 @@ class SpecimenController extends Controller
      */
     public function __construct(SpecimenRepository $specimenRepository,
                                 TypePatientRepository $typePatientRepository,
-                                PatientRepository $patientRepository)
+                                PatientRepository $patientRepository,
+                                QuarantinePatientRepository $quarantinePatientRepository
+    )
     {
         $this->specimenRepository = $specimenRepository;
         $this->typePatientRepository = $typePatientRepository;
         $this->patientRepository = $patientRepository;
+        $this->quarantinePatientRepository = $quarantinePatientRepository;
     }
 
     /**
@@ -39,9 +45,9 @@ class SpecimenController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $specimens = $this->specimenRepository->getPatientSpecimen();
+        $specimens = $this->specimenRepository->getPatientSpecimen($request->all());
         $collection = SpecimenResource::collection($specimens);
         if ($collection) {
 
@@ -65,7 +71,7 @@ class SpecimenController extends Controller
         DB::beginTransaction();
         try {
             $data = [
-                'patient_id' => $request->patient_id,
+                'quarantine_id' => $request->quarantine_id,
                 'date_infection' => $request->date_infection,
                 'date_draw_blood' => $request->date_draw_blood,
                 'date_test' => $request->date_test,
@@ -73,19 +79,22 @@ class SpecimenController extends Controller
                 'address' => $request->address,
             ];
             $result = $this->specimenRepository->create($data);
+            $quarantine = $this->quarantinePatientRepository->find($result->quarantine_id);
             //Find patient by id.
-            $patient = $this->patientRepository->find($request->patient_id);
-            //Find type_patient where number type = 0.
-            $type = $this->typePatientRepository->findWhere(TypePatient::CASE_F0, 'number_type')->firstOrFail();
+            $patient = $this->patientRepository->find($quarantine->patient_id);
             //Check patient if F0 ->update type patient.
-            if ((int)$request->result_test === Constant::STATUS_POSITIVE && $result && $patient->type_id !== $type->id) {
-                $this->patientRepository->updateTypePatient($patient->id, $type->id);
+            if ((int)$request->result_test === Constant::STATUS_POSITIVE && $result && $patient->type_patient !== TypePatient::CASE_F0) {
+                $dataType = [
+                    'type_patient' => TypePatient::CASE_F0,
+                ];
+                $this->patientRepository->updateTypePatient($patient->id, $dataType);
             }
             $collection = new SpecimenResource($result);
             DB::commit();
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
@@ -120,20 +129,48 @@ class SpecimenController extends Controller
      */
     public function update(SpecimenRequest $request, $id)
     {
+        DB::beginTransaction();
         try {
             $data = [
-                'patient_id' => $request->patient_id,
+                'quarantine_id' => $request->quarantine_id,
                 'date_infection' => $request->date_infection,
                 'date_draw_blood' => $request->date_draw_blood,
                 'date_test' => $request->date_test,
                 'address' => $request->address,
+                'result_test' => $request->result_test,
             ];
+            if ($request->result_test === Constant::STATUS_NEGATIVE) {
+                $data['date_infection'] = null;
+            }
             $result = $this->specimenRepository->update($id, $data);
+            //Find quarantine by id
+            $quarantine = $this->quarantinePatientRepository->find($request->quarantine_id);
+            //Find patient by quarantine.
+            $patient = $this->patientRepository->find($quarantine->patient_id);
+
+            if ((int)$request->result_test === Constant::STATUS_NEGATIVE && $patient->parent_id !== null) {
+                //Find parent patient by quarantine.
+                $parentPatient = $this->patientRepository->findWhere($patient->parent_id, 'id')->firstOrFail();
+                $data = [
+                    'type_patient' => (int)$parentPatient->type_patient + 1,
+                ];
+                // If result test = 0
+                // update type patient based on type of parent patient +1
+                $this->patientRepository->updateTypePatient($patient->id, $data);
+            } else if ((int)$request->result_test === Constant::STATUS_POSITIVE) {
+                $data = [
+                    'type_patient' => TypePatient::CASE_F0,
+                ];
+                $this->patientRepository->updateTypePatient($patient->id, $data);
+            }
+            DB::commit();
+            Log::info('Update Specimen>>>>>>>>>>>>>>$result' . $result);
             $collection = new SpecimenResource($result);
 
             return response()->json($collection, Response::HTTP_OK);
         } catch (\Exception $e) {
-
+            DB::commit();
+            Log::info('Update Specimen>>>>>>>>>>>>>>$result' . $e->getMessage());
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }

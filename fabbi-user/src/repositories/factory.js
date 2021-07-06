@@ -1,9 +1,11 @@
-import AuthRepository from "./auth"
-import CityRepository from "./city"
-import TypePatientRepository from "./type_patient"
-import PatientRepository from "./patient"
-import UserRepository from "./user_custom"
-import HealPatientRepository from "./heal_patient_custom"
+import AuthRepository from "./auth";
+import CityRepository from "./city";
+import TypePatientRepository from "./type_patient";
+import PatientRepository from "./patient";
+import UserRepository from "./user_custom";
+import HealPatientRepository from "./heal_patient";
+import SpecimenRepository from "./specimen";
+import QuarantineRepository from "./quarantine_custom";
 
 const repositories = {
     auth: AuthRepository,
@@ -12,6 +14,8 @@ const repositories = {
     patient: PatientRepository,
     user: UserRepository,
     heal_patient: HealPatientRepository,
+    specimen: SpecimenRepository,
+    quarantine: QuarantineRepository,
 }
 export default {
     get: (name) => repositories[name]

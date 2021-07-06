@@ -27,6 +27,9 @@
           <li class="">
             <router-link to="/patients">Manage Patient</router-link>
           </li>
+          <li class="">
+            <router-link to="/specimens">Manage Specimen</router-link>
+          </li>
           <li class=" ">
             <a href="javascript:;" @click="logout">Logout</a>
           </li>

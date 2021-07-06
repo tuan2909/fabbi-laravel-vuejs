@@ -25,8 +25,8 @@ class QuarantineRequest extends FormRequest
     {
         return [
             'patient_id' => 'required',
-            'time_start' => 'required|date|before:tomorrow',
-            'time_end' => 'required|date|before:tomorrow|after:time_start',
+            'time_start' => 'required|date',
+            'time_end' => 'required|date|after:time_start',
         ];
     }
 }

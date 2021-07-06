@@ -3,9 +3,12 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Api\FormRequest;
+use App\Repositories\Specimen\SpecimenRepository;
+use Carbon\Carbon;
 
 class SpecimenRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -23,12 +26,15 @@ class SpecimenRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'date_infection' => 'required',
-            'date_draw_blood' => 'required',
-            'date_test' => 'required',
+        $rules = [
+            'date_infection' => '',
+            'date_draw_blood' => 'required|date|before:tomorrow',
+            'date_test' => 'required|date|before:tomorrow',
             'result_test' => 'required',
             'address' => 'required',
         ];
+       $this->date_infection ? $rules['date_infection'] = 'before:tomorrow' : $rules['date_infection'] = '';
+
+        return $rules;
     }
 }

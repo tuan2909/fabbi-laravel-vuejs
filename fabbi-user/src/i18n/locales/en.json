@@ -45,7 +45,8 @@
       "addressStart": "Enter address start",
       "addressEnd": "Enter address end",
       "other": "Other if you have"
-    }
+    },
+    "msgLoadDataFail": "Loading Patient Fail"
   },
   "user": {
     "loadDataFail": "Loading User Fail"
@@ -55,5 +56,11 @@
   },
   "city": {
     "loadDataFail": "Loading City Fail"
+  },
+  "specimen": {
+    "resultTest": {
+      "positive": "Positive",
+      "negative": "Negative"
+    }
   }
 }
