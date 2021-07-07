@@ -63,5 +63,12 @@
       "positive": "Positive",
       "negative": "Negative"
     }
+  },
+  "quarantine": {
+    "status": {
+      "active": "Active",
+      "waiting": "Waiting",
+      "disabled": "Disabled"
+    }
   }
 }

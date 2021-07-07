@@ -18,4 +18,6 @@ interface PatientRepository extends BaseRepository
     public function updateTypePatient($patientId, $dataType);
 
     public function getParentPatients($number);
+
+    public function getListPatientNotQuarantine($patientsId);
 }

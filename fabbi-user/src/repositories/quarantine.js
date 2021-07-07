@@ -1,6 +1,7 @@
 import request from "../utlis/request";
 
-const requestURL = '/quarantines'
+const requestURL = '/quarantines';
+
 export default {
 
     /**
@@ -32,7 +33,7 @@ export default {
     },
 
     /**
-     *Update data dât by id.
+     *Update data by id.
      *
      * @param payload
      * @param id
@@ -50,5 +51,13 @@ export default {
      */
     delete(id) {
         return request.delete(`${requestURL}/${id}`)
+    },
+    /**
+     * Get list patient still not quarantine.
+     *
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    getListPatientNotQuarantine() {
+        return request.get(`patient_not_quarantine`)
     }
 }

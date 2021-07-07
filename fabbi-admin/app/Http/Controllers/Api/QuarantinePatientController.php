@@ -2,26 +2,31 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Constant;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QuarantineRequest;
-use App\Http\Requests\TypePatientStore;
-use App\Http\Requests\TypePatientUpdate;
 use App\Http\Resources\QuarantineResource;
-use App\Http\Resources\TypePatientResource;
+use App\Repositories\Patient\PatientRepository;
 use App\Repositories\QuarantinePatient\QuarantinePatientRepository;
-use App\Repositories\TypePatient\TypePatientRepository;
+use App\Repositories\Specimen\SpecimenRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class QuarantinePatientController extends Controller
 {
     protected $quarantinePatientRepository;
+    protected $patientRepository;
+    protected $specimenRepository;
 
-    public function __construct(QuarantinePatientRepository $quarantinePatientRepository)
+    public function __construct(QuarantinePatientRepository $quarantinePatientRepository,
+                                PatientRepository $patientRepository, SpecimenRepository $specimenRepository)
     {
         $this->quarantinePatientRepository = $quarantinePatientRepository;
+        $this->patientRepository = $patientRepository;
+        $this->specimenRepository = $specimenRepository;
     }
 
     /**
@@ -32,11 +37,10 @@ class QuarantinePatientController extends Controller
     public function index(Request $request)
     {
 
-        $quarantines = $this->quarantinePatientRepository->getDataQuarantines($request->keyword);
-        $collection = QuarantineResource::collection($quarantines);
+        $quarantines = $this->quarantinePatientRepository->getDataQuarantines($request->all());
 
-        if ($collection) {
-            return response()->json(['data' => $collection], Response::HTTP_OK);
+        if ($quarantines) {
+            return response()->json(['data' => $quarantines], Response::HTTP_OK);
         } else {
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
@@ -93,10 +97,21 @@ class QuarantinePatientController extends Controller
     public function update(QuarantineRequest $request, $id)
     {
         try {
-            $result = $this->quarantinePatientRepository->update($id, $request->all());
-            $collection = new QuarantineResource($result);
+            if ((int)$request->status === Constant::STATUS_OUT_QUARANTINE) {
 
-            return response()->json($collection, Response::HTTP_OK);
+                $specimen = $this->specimenRepository->checkSpecimenPatient($request->all());
+                if ($specimen > Constant::NUMBER_CONDITION_POSITIVE) {
+
+                    $result = $this->quarantinePatientRepository->update($id, $request->all());
+                    $collection = new QuarantineResource($result);
+
+                    return response()->json(['data' => $collection], Response::HTTP_OK);
+                } else {
+
+                    return response()->json(['errors' => trans('message.quarantine.condition_out_quarantine')],
+                        Response::HTTP_FORBIDDEN);
+                }
+            }
         } catch (\Exception $e) {
 
             return response()->json(['message' => trans('message.api.loading_data_false')],
@@ -123,5 +138,17 @@ class QuarantinePatientController extends Controller
             return response()->json(['message' => trans('message.api.loading_data_false')],
                 Response::HTTP_FORBIDDEN);
         }
+    }
+
+    public function getListPatientNotQuarantine(Request $request)
+    {
+        $dataPatientQuarantine = [];
+        $patientQuarantine = $this->quarantinePatientRepository->getPatientsQuarantine();
+        foreach ($patientQuarantine as $item) {
+            array_push($dataPatientQuarantine, $item->patient_id);
+        }
+        $result = $this->patientRepository->getListPatientNotQuarantine($dataPatientQuarantine);
+
+        return response()->json(['data' => $result], Response::HTTP_OK);
     }
 }

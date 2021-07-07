@@ -22,10 +22,10 @@
             <router-link to="/cities">Manage Cities</router-link>
           </li>
           <li class="">
-            <router-link to="/type_patients">Manage Type Patient</router-link>
+            <router-link to="/patients">Manage Patient</router-link>
           </li>
           <li class="">
-            <router-link to="/patients">Manage Patient</router-link>
+            <router-link to="/quarantines">Manage Quarantine</router-link>
           </li>
           <li class="">
             <router-link to="/specimens">Manage Specimen</router-link>

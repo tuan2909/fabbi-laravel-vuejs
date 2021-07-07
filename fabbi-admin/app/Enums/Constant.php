@@ -14,4 +14,8 @@ final class Constant extends Enum
     const STATUS_DISABLED = 0;
     const STATUS_POSITIVE = 1;
     const STATUS_NEGATIVE = 0;
+    const STATUS_QUARANTINE = 1;
+    const STATUS_NOT_QUARANTINE = 0;
+    const STATUS_OUT_QUARANTINE = -1;
+    const NUMBER_CONDITION_POSITIVE = 3;
 }
